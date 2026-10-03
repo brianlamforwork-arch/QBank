@@ -83,6 +83,7 @@ button:focus-visible{outline:3px solid var(--C);outline-offset:2px}
 .tools{display:flex;gap:14px;justify-content:flex-end;padding:0 16px 6px;font-size:.8125rem}
 .tools a{color:var(--muted);font:600 .8125rem var(--sans);padding:4px 0;text-underline-offset:3px}
 .tools button{background:none;border:0;color:var(--muted);font:600 .8125rem var(--sans);padding:4px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.status{font-size:.8125rem;color:var(--muted);padding:0 16px 6px;text-align:right;min-height:1em}
 .empty{color:var(--muted);font-size:1rem;line-height:1.5}
 </style>
 </head>
@@ -98,8 +99,9 @@ button:focus-visible{outline:3px solid var(--C);outline-offset:2px}
   <div class="tools">
     <button id="shuffle" type="button">Shuffle</button>
     <button id="reset" type="button">Restart</button>
-    <a href="question-bank.pdf" download="Question_Bank.pdf">Download PDF</a>
+    <button id="pdf" type="button">Download PDF</button>
   </div>
+  <p class="status" id="status" role="status" aria-live="polite"></p>
   <main>
     <div class="log" id="log" aria-hidden="true"></div>
     <article class="card" id="card" aria-live="polite"></article>
@@ -701,6 +703,36 @@ document.addEventListener("keydown",e=>{if(e.target.tagName==="BUTTON"&&(e.key==
 let tx=null,ty=null;
 $("#card").addEventListener("touchstart",e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
 $("#card").addEventListener("touchend",e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){dx<0?main():go(-1);}tx=null;},{passive:true});
+
+
+// Download PDF: on phones, open the share sheet (Save to Files, OneDrive, etc.)
+// so the app never navigates away; on desktop, download the file directly.
+const PDF_URL="question-bank.pdf", PDF_NAME="Question_Bank.pdf";
+function setStatus(t){$("#status").textContent=t||"";}
+$("#pdf").onclick=async()=>{
+  setStatus("Preparing PDF…");
+  let blob;
+  try{
+    const r=await fetch(PDF_URL);
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    blob=await r.blob();
+  }catch(e){
+    setStatus("PDF not found. Check question-bank.pdf is uploaded next to index.html.");
+    return;
+  }
+  const file=new File([blob],PDF_NAME,{type:"application/pdf"});
+  const touch=window.matchMedia("(pointer: coarse)").matches;
+  if(touch && navigator.canShare && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file],title:"Question Bank"}); setStatus(""); }
+    catch(e){ setStatus(e.name==="AbortError"?"":"Couldn't open the share sheet. Try again."); }
+    return;
+  }
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download=PDF_NAME; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),10000);
+  setStatus("");
+};
 
 load();renderFilters();render();
 if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("sw.js").catch(()=>{});}

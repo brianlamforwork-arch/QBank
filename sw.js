@@ -1,6 +1,6 @@
 // Caches the app so it opens with no signal after the first visit.
 // Change VERSION whenever you edit index.html so phones pick up the new copy.
-const VERSION = "mhkieg-v6";
+const VERSION = "mhkieg-v7";
 const FILES = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./question-bank.pdf"];
 
 self.addEventListener("install", e => {

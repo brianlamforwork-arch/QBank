@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MHKIE(G) Interview Drill</title>
+<meta name="theme-color" content="#24363D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MHKIE(G) drill">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{
+  --paper:#EDF0EA; --sheet:#F8F9F5; --ink:#1E272B; --muted:#5C676B; --rule:#CBD1C8;
+  --btn:#24363D; --btn-ink:#F8F9F5; --soft:#DDE3DA;
+  --A:#8C6A4A; --B:#B39A6C; --C:#4C7A93; --D:#A2655A; --E:#6B7D5A; --F:#615A78;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#151B1D; --sheet:#1D2528; --ink:#E6EAE4; --muted:#9AA5A8; --rule:#334044;
+    --btn:#D9E2DC; --btn-ink:#152024; --soft:#28343A;
+    --A:#B68E68; --B:#CDB687; --C:#6FA2BE; --D:#C78577; --E:#93A77F; --F:#9A91B8;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#151B1D; --sheet:#1D2528; --ink:#E6EAE4; --muted:#9AA5A8; --rule:#334044;
+  --btn:#D9E2DC; --btn-ink:#152024; --soft:#28343A;
+  --A:#B68E68; --B:#CDB687; --C:#6FA2BE; --D:#C78577; --E:#93A77F; --F:#9A91B8;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;height:100%;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-text-size-adjust:100%}
+.app{height:100%;display:flex;flex-direction:column;max-width:720px;margin:0 auto}
+
+header{padding:14px 16px 10px;display:flex;flex-direction:column;gap:10px}
+.toprow{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+h1{font-size:1rem;font-weight:700;margin:0;letter-spacing:.01em}
+.count{font-size:.875rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.filters::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--rule);background:transparent;color:var(--ink);font:600 .8125rem var(--sans);padding:6px 11px;border-radius:999px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.chip .sw{width:9px;height:9px;border-radius:2px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+main{flex:1;min-height:0;display:flex;gap:0;padding:0 12px 0 16px}
+/* borehole log: one band per question, coloured by part */
+.log{width:14px;flex:0 0 14px;display:flex;flex-direction:column;border:1px solid var(--rule);border-radius:3px;overflow:hidden;margin:4px 12px 12px 0;position:relative}
+.log span{flex:1;min-height:1px;opacity:.38;cursor:pointer}
+.log span.done{opacity:.75}
+.log span.cur{opacity:1;box-shadow:inset 0 0 0 2px var(--ink)}
+.card{flex:1;min-width:0;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:18px 18px 28px;margin-bottom:12px}
+.part{font-size:.8125rem;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:8px;margin:0 0 10px}
+.part .sw{width:10px;height:10px;border-radius:2px}
+.q{font-family:var(--sans);font-weight:600;font-size:1.25rem;line-height:1.38;margin:0 0 18px}
+.hint{font-size:.9375rem;color:var(--muted);line-height:1.5;border-top:1px dashed var(--rule);padding-top:14px}
+.a{font-family:var(--serif);font-size:1.0625rem;line-height:1.62;border-top:1px solid var(--rule);padding-top:14px}
+.a ul,.a ol{padding-left:1.15em;margin:.4em 0 .9em}
+.a li{margin:.35em 0}
+.a p{margin:.5em 0 .9em}
+.a .f{font-family:var(--serif);font-style:italic;background:var(--soft);padding:8px 12px;border-radius:6px;margin:.6em 0 1em;overflow-x:auto;white-space:nowrap}
+.a table{border-collapse:collapse;font-family:var(--sans);font-size:.875rem;margin:.6em 0 1em;min-width:420px}
+.a .tw{overflow-x:auto}
+.a th,.a td{border-bottom:1px solid var(--rule);text-align:left;padding:6px 8px;vertical-align:top}
+.a th{font-weight:600}
+.fu{font-family:var(--sans);font-size:.9375rem;line-height:1.5;margin-top:18px;padding:10px 12px;border-left:3px solid var(--accent,var(--muted));background:var(--soft);border-radius:0 6px 6px 0}
+.fu b{display:block;font-size:.8125rem;color:var(--muted);margin-bottom:2px}
+.reveal{animation:show .22s ease-out}
+@keyframes show{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.reveal{animation:none}}
+
+footer{padding:10px 16px 14px;display:grid;grid-template-columns:auto auto 1fr;gap:8px;background:var(--paper);border-top:1px solid var(--rule)}
+footer button{font:600 1rem var(--sans);border-radius:10px;padding:14px 14px;cursor:pointer;min-height:52px}
+.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule)}
+.ghost[aria-pressed="true"]{border-color:var(--ink)}
+.primary{background:var(--btn);color:var(--btn-ink);border:0}
+button:focus-visible{outline:3px solid var(--C);outline-offset:2px}
+.tools{display:flex;gap:14px;justify-content:flex-end;padding:0 16px 6px;font-size:.8125rem}
+.tools button{background:none;border:0;color:var(--muted);font:600 .8125rem var(--sans);padding:4px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.empty{color:var(--muted);font-size:1rem;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="toprow">
+      <h1>MHKIE(G) interview drill</h1>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="filters" id="filters" role="group" aria-label="Filter by part"></div>
+  </header>
+  <div class="tools">
+    <button id="shuffle" type="button">Shuffle</button>
+    <button id="reset" type="button">Restart</button>
+  </div>
+  <main>
+    <div class="log" id="log" aria-hidden="true"></div>
+    <article class="card" id="card" aria-live="polite"></article>
+  </main>
+  <footer>
+    <button class="ghost" id="prev" type="button" aria-label="Previous question">Back</button>
+    <button class="ghost" id="flag" type="button" aria-pressed="false">Review later</button>
+    <button class="primary" id="main" type="button">Show answer</button>
+  </footer>
+</div>
+
+<script>
+const PARTS={
+  A:"Your own field: slopes, loose fill, soil nails",
+  B:"Soil mechanics fundamentals",
+  C:"Groundwater and seepage",
+  D:"Ground investigation and lab testing",
+  E:"Breadth: ELS, foundations, soft clay, rock, tunnels",
+  F:"Professional practice and competences"
+};
+const Q=[
+{id:"A1",p:"A",q:"Explain static liquefaction of a loose fill slope using a stress path in p′–q space. Why was recompaction of the top 3 m the traditional remedy?",
+a:`<ul><li>Loose fill is contractive. When sheared undrained (rapid rise in water from rainfall infiltration), pore pressure builds up instead of volume reducing.</li><li>Stress path: the element starts with a high stress ratio under self-weight. On wetting, p′ falls at roughly constant q, so the path moves left towards the instability line.</li><li>At the instability line (peak of the undrained path, below the critical state line), a small disturbance causes a large pore pressure rise and strain-softening collapse to the very low steady state strength.</li><li>Result: a sudden, highly mobile flow slide. Sau Mau Ping (1972, 1976) are the classic Hong Kong cases.</li><li>Recompaction to ≥95% maximum dry density makes the fill dilative: negative pore pressure under shear, so no brittle collapse. Top 3 m because historical failures were shallow, within the wetting front.</li></ul>`,
+fu:"Draw undrained paths of loose and dense sand on one p′–q plot; mark the critical state line and the instability line."},
+{id:"A2",p:"A",q:"What is the design philosophy for soil nails in loose fill slopes (GEO-HKIE, 2011)?",
+a:`<ul><li>Soil nails do not prevent liquefaction. The design assumes the fill may liquefy and aims to prevent a brittle, mobile failure.</li><li>Check two scenarios: (1) drained stability with nails to the standard FOS; (2) liquefaction, where fill exerts earth pressure on a grillage facing anchored by the nails.</li><li>The grillage needs enough coverage, stiffness and structural capacity. A hybrid pattern (sub-horizontal plus steep nails) improves robustness. Numerical analysis is needed if the pattern departs significantly from the recommended layout.</li></ul>`,
+fu:"Why are steeply inclined nails alone less effective under interface liquefaction?"},
+{id:"A3",p:"A",q:"What failure modes do you check in soil nail design?",
+a:`<ol><li>Tensile failure of the steel bar.</li><li>Pull-out at the grout–soil interface beyond the slip surface.</li><li>Bond failure at the bar–grout interface.</li><li>Nail head or facing failure (bearing, punching shear, bending).</li><li>Overall (external) stability, slip surfaces passing behind the nails.</li></ol><p>Pull-out resistance per unit length (Geoguide 7 form), D = grouted hole diameter, σ′<sub>v</sub> = vertical effective stress at mid-length beyond the slip surface:</p><div class="f">T = π D c′ + 2 D σ′<sub>v</sub> tan φ′</div>`,
+fu:"Why use vertical effective stress rather than the normal stress on the nail? What happens to pull-out capacity near the crest?"},
+{id:"A4",p:"A",q:"How do you protect soil nails against corrosion?",
+a:`<ul><li>Classify soil aggressivity first: pH, resistivity, sulphate, chloride, redox, and nearby leaking services.</li><li>Measures: hot-dip galvanising, sacrificial steel thickness, grout cover kept by centralisers, and corrugated plastic sheathing in aggressive ground or for critical nails. Check the current Geoguide 7 table for each class.</li><li>In very aggressive ground, consider fibre-reinforced polymer bars or avoid nails.</li></ul>`,
+fu:"What is the design life of a permanent soil nail, and how is it reflected in design?"},
+{id:"A5",p:"A",q:"What is TDR testing of soil nails, and what are its limits?",
+a:`<ul><li>Time Domain Reflectometry sends an electrical pulse along a wire fixed to the bar. Bar and wire act as a transmission line; the pulse reflects at the bar end, and travel time gives the installed length.</li><li>A non-destructive check for short or missing bars, on a random sample set in the contract.</li><li>Limits: checks length only, not grout or bond. Affected by grout moisture, wire damage and calibration. Use with pull-out tests and grout records.</li></ul>`},
+{id:"A6",p:"A",q:"Bishop vs Janbu vs Morgenstern-Price: what are the assumptions, and when would you use numerical analysis instead?",
+a:`<div class="tw"><table><tr><th>Method</th><th>Equilibrium</th><th>Interslice forces</th><th>Surface</th></tr><tr><td>Bishop simplified</td><td>Moment (+ vertical force)</td><td>Normal only</td><td>Circular</td></tr><tr><td>Janbu simplified</td><td>Force only</td><td>Normal only, correction f<sub>0</sub></td><td>Non-circular</td></tr><tr><td>Morgenstern-Price</td><td>Force and moment</td><td>Normal and shear, assumed function</td><td>Any</td></tr></table></div><p>All limit equilibrium methods assume rigid-plastic behaviour and one FOS along the whole surface. No deformations, no progressive failure.</p><p>Use numerical analysis for deformations (effects on neighbours), soil–structure interaction (nails and facing under liquefaction), strain-softening, or staged excavation.</p>`,
+fu:"Why might Janbu simplified give a lower FOS than Morgenstern-Price for the same surface?"},
+{id:"A7",p:"A",q:"What FOS did you design to, and why?",
+a:`<ul><li>Geotechnical Manual for Slopes: new slopes in the highest consequence-to-life category need FOS 1.4 for the 10-year return period groundwater.</li><li>For upgrading existing slopes, a lower FOS (e.g. 1.2 for the highest category) is acceptable if justified by detailed GI, known performance, or back analysis.</li><li>Know how consequence categories are set from facility type, distance and slope height.</li></ul>`,
+fu:"Why is a lower FOS acceptable for an existing slope? What evidence would you need?"},
+{id:"A8",p:"A",q:"How do you design a debris-resisting barrier for a natural terrain hazard?",
+a:`<ul><li>Natural terrain hazard study: desk study, aerial photo interpretation, field mapping, hazard types (open hillslope, channelised debris flow, boulder fall), design event volume, then debris mobility analysis for velocity and flow depth at the barrier.</li><li>Rigid barrier impact by the hydrodynamic approach with dynamic coefficient α (GEO Report 270):</li></ul><div class="f">F = α ρ v² h w</div><ul><li>Flexible barriers absorb energy through net deformation and dissipators. Check post-impact capacity, overflow and deflection clearance.</li></ul>`,
+fu:"Why does α vary? What decides rigid versus flexible?"},
+{id:"A9",p:"A",q:"How do you size slope surface drainage?",
+a:`<ul><li>Peak runoff by the Rational Method (Q in m³/s, i in mm/hr, A in km²):</li></ul><div class="f">Q = 0.278 C i A</div><ul><li>Use a high return period (typically 200 years for slope drainage, per GEO guidance) and a time of concentration suited to small steep catchments.</li><li>Stepped channels on steep gradients to dissipate energy; catchpits at changes of direction. Allow for blockage; check freeboard and splashing at bends.</li></ul>`,
+fu:"What failures have been caused by drainage overflow, and what were the lessons?"},
+
+{id:"B1",p:"B",q:"State the principle of effective stress and explain why it matters.",
+a:`<ul><li>Terzaghi: σ′ = σ − u. Strength and volume change depend on effective stress, because only stress carried at grain contacts mobilises friction and causes deformation.</li><li>Rising water lowers σ′ and strength (rainstorm failures); pumping lowers u and raises σ′ (dewatering settlement).</li><li>In unsaturated Hong Kong residual soils, suction adds apparent cohesion. It is lost when wetting fronts advance, so shallow failures occur without a main water table rise.</li></ul>`},
+{id:"B2",p:"B",q:"Draw the Mohr circle at failure for a drained triaxial test. Where is the failure plane?",
+a:`<ul><li>The circle passes through σ′<sub>3</sub> and σ′<sub>1</sub> and touches τ = c′ + σ′ tan φ′.</li><li>The failure plane is at 45° + φ′/2 to the major principal plane (horizontal in standard compression).</li><li>Pole method: draw from the pole parallel to any plane; the intersection with the circle gives the stresses on that plane.</li></ul>`,
+fu:"Why is the maximum shear stress plane (45°) not the failure plane?"},
+{id:"B3",p:"B",q:"Draw effective stress paths for: drained triaxial; undrained loose and dense soil; a foundation load; an excavation; a slope being wetted.",
+a:`<p>p′ = (σ′<sub>1</sub> + 2σ′<sub>3</sub>)/3, q = σ<sub>1</sub> − σ<sub>3</sub></p><div class="tw"><table><tr><th>Case</th><th>Effective stress path</th></tr><tr><td>Drained triaxial compression</td><td>Straight line, slope 3</td></tr><tr><td>Undrained, loose / NC</td><td>Bends left: positive pore pressure</td></tr><tr><td>Undrained, dense / heavily OC</td><td>Bends right: negative pore pressure</td></tr><tr><td>Foundation load on NC clay (undrained)</td><td>q rises; effective path bends left</td></tr><tr><td>Excavation (lateral unloading)</td><td>q rises as σ<sub>h</sub> falls, towards active failure</td></tr><tr><td>Slope wetting</td><td>Roughly constant q, p′ falls: moves left</td></tr></table></div><p>The gap between total and effective paths at any point is the excess pore pressure.</p>`},
+{id:"B4",p:"B",q:"Explain dilation and contraction during shearing, in drained and undrained tests.",
+a:`<ul><li>Dense soil rides up over grains and dilates; loose soil collapses into voids and contracts.</li><li>Drained: dense shows a peak then softens to critical state, volume increases. Loose shows no peak, volume decreases.</li><li>Undrained: no volume change, so dilation gives negative pore pressure (strength up) and contraction gives positive pore pressure (strength down).</li><li>Both end on the critical state line: constant volume and stress with continuing shear.</li></ul>`,
+fu:"Why is it unsafe to rely on peak strength in a large slope?"},
+{id:"B5",p:"B",q:"When do you use undrained (s_u) versus drained (c′, φ′) parameters?",
+a:`<ul><li>Undrained when loading is fast compared with drainage: low-permeability clay during construction.</li><li>Drained for granular soils and long-term conditions in clay.</li><li>Cutting in clay: long-term is critical (pore pressures recover, strength falls). Embankment on soft clay: short-term is critical (strength rises with consolidation).</li></ul>`},
+{id:"B6",p:"B",q:"Explain Skempton's pore pressure parameters A and B.",
+a:`<div class="f">Δu = B [ Δσ<sub>3</sub> + A (Δσ<sub>1</sub> − Δσ<sub>3</sub>) ]</div><ul><li>B reflects saturation: near 1 when saturated (triaxial check, typically B ≥ 0.95).</li><li>A at failure is about 1 for NC clay and can be negative for heavily OC clay or dense sand.</li></ul>`},
+{id:"B7",p:"B",q:"What is arching? Give geotechnical examples.",
+a:`<ul><li>Stress transfer from a yielding part of the soil onto stiffer neighbours, through shear resistance.</li><li>Examples: around tunnels, between stabilising piles in a slope, between nail heads behind a facing, trapdoor problems, piled embankments.</li><li>It relies on shear strength, so it can be lost by saturation, vibration or excessive movement.</li></ul>`},
+
+{id:"C1",p:"C",q:"A long slope has a piezometer in it. Mark the piezometric level it will show.",
+a:`<ul><li>Assume steady seepage parallel to the slope: flow lines parallel, equipotentials perpendicular.</li><li>Follow the equipotential through the tip up to the phreatic surface. The standpipe water rises to the elevation where that equipotential meets the phreatic surface, not to the water table directly above.</li><li>So the reading is lower than the water table above the tip. At a point z below the phreatic surface (vertically), for slope angle β:</li></ul><div class="f">u = γ<sub>w</sub> z cos²β</div>`,
+fu:"What if flow is not parallel, e.g. upward seepage at the toe?"},
+{id:"C2",p:"C",q:"Derive the FOS of an infinite slope with seepage parallel to the surface (c′ = 0).",
+a:`<div class="f">F = (γ′ / γ<sub>sat</sub>) × (tan φ′ / tan β)</div><p>γ′/γ<sub>sat</sub> is about 0.5, so a fully saturated slope with surface-parallel seepage has roughly half the FOS of the dry slope. That is why rainfall is Hong Kong's main landslide trigger.</p>`},
+{id:"C3",p:"C",q:"Derive the condition for hydraulic (base) failure due to upward seepage.",
+a:`<ul><li>Upward flow reduces σ′. Heave or boiling occurs when σ′ = 0, at the critical gradient:</li></ul><div class="f">i<sub>c</sub> = γ′ / γ<sub>w</sub> ≈ 1.0</div><ul><li>FOS = i<sub>c</sub> / i<sub>exit</sub>. For sheet-pile cofferdams use Terzaghi's block method: submerged block weight (width ≈ half the embedment) versus uplift from excess pore pressure at its base.</li><li>Remedies: deeper cut-off, filter/weighting blanket, relief wells, lowering the external head.</li></ul>`,
+fu:"How would a thin clay layer below the base change the check? (Uplift of the clay under artesian head.)"},
+{id:"C4",p:"C",q:"How do you draw a flow net and calculate seepage from it?",
+a:`<ul><li>Flow lines and equipotentials cross at right angles, forming curvilinear squares. Impermeable boundaries are flow lines; water-filled boundaries are equipotentials.</li><li>Seepage per unit width:</li></ul><div class="f">q = k H N<sub>f</sub> / N<sub>d</sub></div><ul><li>Anisotropic soil: scale horizontal distances by √(k<sub>v</sub>/k<sub>h</sub>) and use k′ = √(k<sub>h</sub> k<sub>v</sub>).</li></ul>`},
+{id:"C5",p:"C",q:"How do you set the design groundwater level for a slope?",
+a:`<ul><li>Combine piezometer and Halcrow bucket records (peak levels), rainfall records and slope history; extrapolate to the 10-year return period from the response to known storms.</li><li>Consider transient perched water above less permeable layers (colluvium over saprolite, relict joints) and leaking water mains.</li><li>Instruments: Casagrande standpipes (slow response), vibrating wire piezometers with loggers (fast, for rainfall events), Halcrow buckets (maximum level between readings).</li></ul>`},
+
+{id:"D1",p:"D",q:"How do you plan a GI for an LPMit Stage 3 study?",
+a:`<ol><li>Desk study: GEO records (GIU, slope and landslide records, previous GI), geological maps, aerial photos, utility records.</li><li>Site mapping to build the engineering geological model: fill, colluvium, saprolite, rock, and water.</li><li>Set objectives: stratigraphy at critical sections, parameters, groundwater, buried features.</li><li>Methods: drillholes at crest and toe on the critical section, trial pits and slope stripping, in-situ density for fill, Mazier samples for triaxial tests, piezometers and Halcrow buckets.</li><li>Stay flexible: revise as results arrive.</li></ol><p>Reference: Geoguide 2.</p>`,
+fu:"What would make you add drillholes after the first results?"},
+{id:"D2",p:"D",q:"Describe the weathering grades of Hong Kong granite. How do you tell CDG from HDG?",
+a:`<ul><li>Grades I (fresh) to VI (residual soil), per Geoguide 3.</li><li>Grade V (CDG): a soil, breaks down by hand, slakes in water, rock texture preserved.</li><li>Grade IV (HDG): cannot be broken by hand, does not slake readily, breaks by hammer.</li><li>Relict joints with kaolin or manganese-oxide infill can be weak planes. Corestones can give false rockhead readings.</li></ul>`,
+fu:"Typical friction angle of a kaolin-infilled joint versus intact CDG?"},
+{id:"D3",p:"D",q:"Describe the three stages of a CU triaxial test with pore pressure measurement.",
+a:`<ol><li>Saturation: raise cell and back pressure together, small effective stress. Check B (typically ≥ 0.95).</li><li>Consolidation: apply target effective stress; record volume change against time. Time to 100% consolidation sets the shear rate.</li><li>Shearing: undrained, slow enough for pore pressure to equalise. Measure deviator stress and pore pressure; plot effective stress paths.</li></ol><p>CU tests are common because they are faster than drained tests and still give effective stress parameters.</p>`,
+fu:"How can you tell from the stress path whether a sample was dilative or contractive?"},
+{id:"D4",p:"D",q:"When would you specify a shear box test instead of a triaxial test?",
+a:`<ul><li>Shear box: shearing along a defined plane (relict joint, soil–structure interface) and residual strength by reversals. Cheap and quick.</li><li>Limits: forced failure plane, no pore pressure control or measurement, non-uniform stress.</li><li>Triaxial: drainage control and pore pressure, so you can follow the stress path.</li></ul>`},
+{id:"D5",p:"D",q:"How do you derive design c′ and φ′ from triaxial results for a shallow slope?",
+a:`<ul><li>Plot in s′–t or p′–q and fit an envelope over the stress range on the slip surface: low stress for shallow slopes.</li><li>Envelopes are often curved. A straight fit over high stresses overestimates c′ at low stress, which is unconservative.</li><li>Use a cautious estimate, not the mean; check against back analysis or GEO typical values.</li></ul>`},
+{id:"D6",p:"D",q:"What are the limitations of SPT in Hong Kong ground?",
+a:`<ul><li>N depends on hammer energy, borehole disturbance (base heave in loose sand below water) and corestones or gravel.</li><li>In saprolite, N varies widely with relict structure. Use it as an index, not a direct strength value, unless locally correlated.</li></ul>`},
+{id:"D7",p:"D",q:"What do you get from an oedometer test, and how do you use it?",
+a:`<ul><li>e–log σ′ curve, C<sub>c</sub>, C<sub>r</sub>, preconsolidation pressure σ′<sub>p</sub> (Casagrande), m<sub>v</sub>, c<sub>v</sub>.</li><li>Uses: settlement magnitude (m<sub>v</sub> or C<sub>c</sub>, C<sub>r</sub>) and timing (c<sub>v</sub>), e.g. reclamation and surcharge design.</li><li>Lab c<sub>v</sub> often underestimates field c<sub>v</sub> because it misses fabric such as sand lenses. Use piezocone dissipation and settlement monitoring.</li></ul>`},
+
+{id:"E1",p:"E",q:"Outline the CIRIA C580 approach to embedded retaining wall design.",
+a:`<ul><li>Serviceability: moderately conservative parameters, unfactored, to predict wall movement and ground settlement.</li><li>Ultimate: partial factors on soil strength (or worst credible parameters) to check embedment, bending, prop loads and overall stability.</li><li>Unplanned excavation allowance (10% of retained height, up to 0.5 m) and a minimum surcharge.</li><li>Used in Hong Kong where deformation matters, e.g. near MTR structures.</li></ul>`,
+fu:"Why is C580 better for deformation-sensitive sites than a global factor of safety approach?"},
+{id:"E2",p:"E",q:"How do you calculate the overall stiffness of a strut system for a computer model?",
+a:`<ul><li>Series (strut, waling, connection: same force), compliances add:</li></ul><div class="f">1/k<sub>total</sub> = 1/k<sub>1</sub> + 1/k<sub>2</sub> + 1/k<sub>3</sub></div><ul><li>Parallel (same displacement): k = k<sub>1</sub> + k<sub>2</sub>.</li><li>Axial stiffness per metre run = EA/(L·s), s = strut spacing. Symmetric excavation: centreline doesn't move, so use half the strut length.</li><li>Reduce for connection slack, temperature and preload; check sensitivity.</li></ul>`},
+{id:"E3",p:"E",q:"What is the hoop stress in a circular excavation, and what are the risks?",
+a:`<ul><li>Ring compression N = p·r per unit height, so hoop stress σ = p·r / t.</li><li>Advantage: self-supporting in compression, no struts, open working space.</li><li>Risks: out-of-roundness or uneven pressure causes bending; diaphragm wall panel verticality and joints are critical.</li></ul>`},
+{id:"E4",p:"E",q:"Explain negative skin friction and how you design for it.",
+a:`<ul><li>Cause: soil settles more than the pile (new fill on soft clay, dewatering), dragging it down above the neutral plane.</li><li>Design: structural check for permanent load plus drag load; check downdrag settlement. Shaft resistance above the neutral plane doesn't count as capacity.</li><li>Mitigation: bitumen slip coating, sleeves, surcharge and wait before piling, larger sections.</li></ul>`,
+fu:"Where is the neutral plane for an end-bearing pile on rock versus a friction pile?"},
+{id:"E5",p:"E",q:"What special investigation and design considerations apply to marble sites in Scheduled Areas?",
+a:`<ul><li>Some Scheduled Areas are underlain by marble with solution cavities; geotechnical works need specialist control and GEO checking.</li><li>Extensive GI, often drillholes at each pile, to locate cavities and classify marble by Marble Quality Designation (MQD).</li><li>Options: found piles on sound marble of adequate thickness below the toe, grout cavities, or rafts in some cases. Watch karst features at rock surface.</li></ul>`,
+fu:"What other geotechnical controls apply in Scheduled Areas and Mid-Levels, and why?"},
+{id:"E6",p:"E",q:"Explain pile set-up and relaxation, and how dynamic testing is used.",
+a:`<ul><li>Set-up: capacity rises with time after driving as excess pore pressure dissipates and soil ages.</li><li>Relaxation: capacity falls with time, e.g. in dense dilative sand or some weathered rocks.</li><li>PDA with signal matching (CAPWAP) estimates mobilised capacity on restrike. Hong Kong also uses the final set (Hiley formula) for driven H-piles.</li></ul>`},
+{id:"E7",p:"E",q:"What are typical properties of Hong Kong marine mud, and how do you improve it?",
+a:`<ul><li>Very soft to soft, moisture content often 50–100%, s<sub>u</sub>/σ′<sub>v</sub> about 0.2–0.3 when NC, low c<sub>v</sub>, significant creep.</li><li>Improvement: PVDs plus surcharge (radial consolidation, Barron/Hansbo), deep cement mixing (airport third runway), stone columns, dredge and replace.</li><li>Monitor with settlement plates, piezometers and inclinometers to control fill rate and confirm consolidation before surcharge removal.</li></ul>`,
+fu:"Why does lab c_v underestimate field rate, and what is smear around drains?"},
+{id:"E8",p:"E",q:"How do you use a stereonet to assess rock slope failure modes?",
+a:`<ul><li>Planar: joint dips out of the face, daylights (dip < slope angle), steeper than φ, strike within about ±20° of the face.</li><li>Wedge: intersection line plunges out of the face, less steep than the face, steeper than φ.</li><li>Toppling: steep joints dipping into the slope, striking roughly parallel to the face.</li><li>Tunnel roof: check wedges free to fall under gravity and wedges sliding on one plane (e.g. Unwedge).</li><li>Clay infill can lower φ well below clean joints.</li></ul>`},
+{id:"E9",p:"E",q:"How do you assess settlement from TBM tunnelling and set face pressure?",
+a:`<ul><li>Gaussian trough, i = K·z<sub>0</sub> (K ≈ 0.5 clay, 0.25–0.35 sand):</li></ul><div class="f">S(x) = S<sub>max</sub> exp(−x² / 2i²)</div><ul><li>Volume loss: V<sub>s</sub> = √(2π)·i·S<sub>max</sub>.</li><li>Face pressure: high enough to prevent collapse and limit volume loss, low enough to avoid blow-out at shallow cover.</li><li>Building damage: greenfield settlement then Burland-type categories; monitoring with Alert-Alarm-Action levels.</li></ul>`},
+{id:"E10",p:"E",q:"Name some special Hong Kong rock types and their engineering significance.",
+a:`<ul><li>Eutaxite: welded tuff with flattened fiamme; can be anisotropic.</li><li>Andesite and other volcanics: generally strong, can weather irregularly.</li><li>Monzonite and syenite: intrusives that weather differently from granite.</li><li>Marble: solution cavities.</li><li>Know the geology under your own LPMit features from the HKGS 1:20,000 maps.</li></ul>`},
+
+{id:"F1",p:"F",q:"(C8) A contractor offers you a gift, or presses you to certify unfinished work. What do you do?",
+a:`<ul><li>Refuse; never certify what you haven't verified. Accepting advantages can breach the Prevention of Bribery Ordinance (Cap. 201) and employer rules.</li><li>Record and report to your supervisor or the project manager; follow the declaration procedure.</li><li>Link to the HKIE Rules of Conduct: duty to the public and employer, integrity, working within competence.</li></ul>`,
+fu:"What if your own senior asks you to sign calculations you haven't checked?"},
+{id:"F2",p:"F",q:"(C2) Explain how slope safety responsibility works for a private slope in Hong Kong.",
+a:`<ul><li>Owners maintain slopes on their land; responsibility is shown in the Lands Department's SMRIS.</li><li>If a private slope is dangerous or liable to become so, BD can serve a Dangerous Hillside Order under s.27A of the Buildings Ordinance. Your Stage 2 recommendations fed into this.</li><li>Government slopes are upgraded under LPMit; works are checked by GEO.</li></ul>`,
+fu:"What happens if the owner does not comply with a DH Order?"},
+{id:"F3",p:"F",q:"(C7, C9) What are the main safety hazards on slope upgrading works, and how did you control them?",
+a:`<ul><li>Hazards: work at height on steep slopes, drill rigs on scaffolding, lifting, unsupported excavation (hence pit-by-pit), debris falling onto roads below, work in rainstorms.</li><li>Controls: method statements and risk assessments, scaffold inspections, permit-to-work, rainstorm suspension, traffic management and hoarding, under Cap. 59.</li><li>Give a real example from GE/2020/05 where you stopped or changed an activity.</li></ul>`},
+{id:"F4",p:"F",q:"(C9) How do you address sustainability in slope works?",
+a:`<ul><li>Prefer greening and soft landscape over hard cover; keep existing trees.</li><li>Choose lower embodied carbon where equally effective (e.g. flexible vs large rigid barrier).</li><li>Reuse excavated material; minimise waste; control noise, dust and runoff.</li><li>Life-cycle thinking: maintenance access and durability reduce future resource use.</li></ul>`},
+{id:"F5",p:"F",q:"(C6, C7) Under NEC4, how are unforeseen ground conditions handled?",
+a:`<ul><li>Physical conditions are a compensation event (clause 60.1(12)) if an experienced contractor would have judged, at the contract date, that they had such a small chance of occurring that allowing for them was unreasonable.</li><li>Early warnings and the risk register should surface ground risks early, e.g. targeted GI before main works.</li><li>Use a real CE you assessed: entitlement, time and cost.</li></ul>`},
+{id:"F6",p:"F",q:"(C10) A resident refuses land entry for GI or works. How do you handle it?",
+a:`<ul><li>Explain purpose, safety benefit, duration and site arrangements in plain language. Listen to concerns (noise, privacy, damage) and offer practical measures.</li><li>Involve the right departments, keep records, escalate through proper channels.</li><li>Use your own example from the GI contracts.</li></ul>`},
+{id:"F7",p:"F",q:"(C1, C11) What are the key lessons from major Hong Kong landslides?",
+a:`<div class="tw"><table><tr><th>Event</th><th>Lesson</th></tr><tr><td>Sau Mau Ping (1972, 1976)</td><td>Loose fill liquefaction; led to GCO (now GEO) in 1977 and recompaction.</td></tr><tr><td>Po Shan Road (1972)</td><td>Groundwater in deep weathering profiles can trigger large failures.</td></tr><tr><td>Kwun Lung Lau (1994)</td><td>Leaking services behind old masonry walls.</td></tr><tr><td>Fei Tsui Road (1995)</td><td>Weak kaolin-rich layers; importance of the geological model.</td></tr><tr><td>Sept 2023 black rainstorm</td><td>Extreme rainfall, many landslides; climate resilience.</td></tr></table></div><p>Check details against GEO reports before the interview.</p>`},
+{id:"F8",p:"F",q:"(C11) How do you keep your knowledge current? Name a recent development.",
+a:`<ul><li>Give your actual CPD: HKIE Geotechnical Division seminars, GEO publications and TGNs, courses, papers.</li><li>Prepare: smart slope monitoring and early warning, digital tools in LPMit, debris barrier design advances, climate change in design rainfall.</li><li>Have two or three papers you can discuss.</li></ul>`},
+{id:"F9",p:"F",q:"What is your weakest geotechnical area, and what are you doing about it?",
+a:`<ul><li>Be honest: likely foundations, deep excavation and tunnelling.</li><li>Show the plan: reading, CPD, exposure through colleagues or site visits.</li><li>This shows self-reflection, which the interview explicitly assesses.</li></ul>`}
+];
+
+Q.push(
+{id:"A10",p:"A",q:"Why is pit-by-pit excavation specified for works behind or below an existing retaining wall or slope?",
+a:`<ul><li>It limits the length of ground exposed at any time, so soil arching onto unexcavated ground keeps the wall or slope stable.</li><li>Pits are dug in an alternating sequence (e.g. every third pit), and each is backfilled or concreted before neighbours are opened.</li><li>Supervise pit width, depth, the sequence, time left open, and stop work before heavy rain.</li></ul>`,
+fu:"What would you do if a pit face started to ravel or water seeped in?"},
+{id:"A11",p:"A",q:"How do you assess and upgrade an old masonry retaining wall?",
+a:`<ul><li>Inspect: wall type (random or squared rubble, dry or mortared), bulging, cracks, missing stones, seepage, trees, nearby water-carrying services.</li><li>Check sliding, overturning (resultant within the middle third), bearing and overall stability, with realistic groundwater.</li><li>Upgrading: soil nails through the wall, raking drains and weepholes, a reinforced concrete skin wall, or buttresses. Repair service leaks first.</li><li>Lesson: Kwun Lung Lau (1994), where leaking services behind an old wall contributed to failure.</li></ul>`},
+{id:"A12",p:"A",q:"What do raking drains do, and how much should you rely on them in design?",
+a:`<ul><li>Perforated pipes with a filter, drilled into the slope at a small upward angle, to lower groundwater and relieve pressure.</li><li>Effectiveness depends on hitting permeable paths and on long-term maintenance; they can clog.</li><li>Treat them cautiously: give design credit only with evidence such as piezometer monitoring, or use them as an extra measure.</li></ul>`},
+{id:"A13",p:"A",q:"What is the role of the soil nail head and slope facing?",
+a:`<ul><li>Nails mobilise tension through relative movement of the soil. The head ties the nail to the surface zone.</li><li>Heads and facing prevent local failure between nails and erosion of the surface, and help mobilise nail force near the face.</li><li>Head size and facing type relate to nail spacing and how loose or weak the near-surface material is.</li></ul>`},
+{id:"A14",p:"A",q:"How does nail inclination affect soil nail performance?",
+a:`<ul><li>Nails work best in tension, aligned roughly with the direction of soil strain. Near-horizontal nails (typically 10–20° below horizontal, which also helps grouting) mobilise tension efficiently.</li><li>Steep nails mobilise less tension for the same movement; they may act partly in bending.</li><li>Inclination also affects drilling into hard layers, clashes with services, and nail length needed beyond the slip surface.</li></ul>`},
+{id:"A15",p:"A",q:"What is the purpose of a soil nail pull-out test, and what do you check?",
+a:`<ul><li>To verify the design bond between grout and soil in the actual ground, using sacrificial test nails (or proof tests on working nails).</li><li>Check load–displacement behaviour, creep at constant load, and that the test reaches the specified load without failure.</li><li>Test nails should represent working nails in ground type, length and installation method.</li></ul>`},
+{id:"A16",p:"A",q:"When and how would you use back analysis of a slope?",
+a:`<ul><li>When a slope has failed or shown distress: set FOS = 1.0 for the conditions at failure to estimate strength or groundwater.</li><li>The solution is not unique: many combinations of c′, φ′ and water level give FOS = 1.0. Fix the best-known values and solve for one unknown.</li><li>Use it to check parameters from tests, not to replace them.</li></ul>`},
+{id:"A17",p:"A",q:"Why do most Hong Kong landslides happen in heavy rain, even on slopes without a high water table?",
+a:`<ul><li>Infiltration creates a wetting front that removes suction, so apparent cohesion disappears in the near-surface soil (Lumb's wetting band concept).</li><li>Perched water can build up above less permeable layers.</li><li>Short-duration, high-intensity rainfall drives many shallow failures; antecedent rain matters for deeper ones. The Landslip Warning system is based on rainfall–landslide correlations.</li></ul>`},
+{id:"A18",p:"A",q:"How do you assess and mitigate a boulder fall hazard?",
+a:`<ul><li>Assess: boulder size, how it is supported, undercutting, joint orientation, and the run-out path to facilities.</li><li>Stabilise in place: dowels, buttresses, wire rope nets, or removal or splitting where safe.</li><li>Protect: catch fences, flexible barriers or rigid barriers on the run-out path.</li></ul>`},
+{id:"A19",p:"A",q:"What are the benefits and risks of vegetation on slopes and walls?",
+a:`<ul><li>Benefits: erosion control, shallow root reinforcement, transpiration that lowers water content, and appearance.</li><li>Not usually relied on in stability calculations, because the effect is shallow and variable.</li><li>Risks: trees on walls can jack masonry apart, windthrow can pull out the surface, and roots can damage drains.</li></ul>`},
+{id:"A20",p:"A",q:"What are prescriptive measures, and when can they be used?",
+a:`<ul><li>Standard pre-designed upgrading works (e.g. nails at set lengths and spacing, drainage, surface protection) for small slopes and walls, without full design analysis (GEO Report 56).</li><li>Only within set limits of height, angle, ground and consequence, and where there's no sign of instability or adverse geology.</li><li>Still needs a geotechnical engineer's judgement that conditions fit.</li></ul>`},
+{id:"A21",p:"A",q:"What maintenance does a slope need (Geoguide 5)?",
+a:`<ul><li>Routine Maintenance Inspections: at least yearly, by non-specialists, clearing drains and fixing surface cover.</li><li>Engineer Inspections for Maintenance: by a professionally qualified geotechnical engineer, typically every 5 years.</li><li>Regular monitoring of buried water-carrying services, where they could affect the slope.</li></ul>`,
+fu:"Why did your Maintenance Manuals in the Stage 3 studies matter for long-term safety?"},
+{id:"A22",p:"A",q:"Compare hard surface cover (chunam, shotcrete) with vegetated cover.",
+a:`<ul><li>Hard cover reduces infiltration but cracks over time, can trap water behind it, and is visually poor.</li><li>Vegetated cover with erosion control mats is now preferred for appearance and ecology, but gives less control of infiltration.</li><li>Choice depends on slope angle, material, groundwater and maintenance access. Provide drainage either way.</li></ul>`},
+
+{id:"B8",p:"B",q:"What is the critical state line, and how is M related to φ′?",
+a:`<ul><li>The state where soil shears at constant volume and constant stress. In p′–q space it is q = M p′; in e–ln p′ space it is parallel to the normal compression line.</li><li>For triaxial compression:</li></ul><div class="f">M = 6 sin φ′<sub>cs</sub> / (3 − sin φ′<sub>cs</sub>)</div><ul><li>Soil "wetter" than critical contracts; "drier" dilates.</li></ul>`},
+{id:"B9",p:"B",q:"What is K₀, and how does overconsolidation change it?",
+a:`<ul><li>The ratio of horizontal to vertical effective stress with no lateral strain.</li><li>Normally consolidated (Jaky): K₀ ≈ 1 − sin φ′, typically 0.4–0.5.</li><li>Overconsolidated: K₀ rises, roughly K₀(NC) × OCR<sup>sin φ′</sup>; can exceed 1 near the surface in heavily OC clay.</li></ul>`},
+{id:"B10",p:"B",q:"Explain Rankine active and passive earth pressure and their assumptions.",
+a:`<div class="f">K<sub>a</sub> = (1 − sin φ′)/(1 + sin φ′) &nbsp;&nbsp; K<sub>p</sub> = (1 + sin φ′)/(1 − sin φ′)</div><ul><li>Assumes a smooth vertical wall, horizontal ground and a full plastic state. Coulomb adds wall friction and sloping ground.</li><li>Active pressure needs only small wall movement; passive needs much larger movement, so passive is usually factored down.</li><li>Add water pressure separately, using effective stress for the soil part.</li></ul>`},
+{id:"B11",p:"B",q:"Write the bearing capacity equation and explain its terms.",
+a:`<div class="f">q<sub>ult</sub> = c′N<sub>c</sub> + q N<sub>q</sub> + ½ γ B N<sub>γ</sub></div><ul><li>Cohesion, surcharge (embedment) and self-weight terms; N factors depend on φ′. Add shape, depth and inclination factors.</li><li>A water table at or near the base roughly halves γ in the last term.</li><li>Failure modes: general shear (dense), local or punching shear (loose or soft).</li></ul>`},
+{id:"B12",p:"B",q:"What are the three components of settlement?",
+a:`<ul><li>Immediate (elastic, undrained distortion): s = qB(1 − ν²)I/E.</li><li>Primary consolidation: from pore pressure dissipation, controlled by m<sub>v</sub> or C<sub>c</sub> and c<sub>v</sub>.</li><li>Secondary compression (creep): continues after pore pressure has dissipated, controlled by C<sub>α</sub>; important in marine mud and organic soils.</li></ul>`},
+{id:"B13",p:"B",q:"State Terzaghi's 1D consolidation time relationship and its key implication.",
+a:`<div class="f">T<sub>v</sub> = c<sub>v</sub> t / H<sub>dr</sub>²</div><ul><li>H<sub>dr</sub> is the longest drainage path: half the thickness if drained both sides.</li><li>Time scales with H², so halving the drainage path cuts time by four. That is why vertical drains work.</li><li>Assumptions: 1D flow, saturated, small strain, constant c<sub>v</sub> and k.</li></ul>`},
+{id:"B14",p:"B",q:"What is residual strength, and when is it relevant?",
+a:`<ul><li>The lowest strength after large shear displacement, when platy clay particles align along the shear surface.</li><li>Relevant for reactivated landslides, old shear surfaces, and clay-infilled joints.</li><li>Measured by ring shear or reversing shear box tests.</li></ul>`},
+{id:"B15",p:"B",q:"How does suction affect the strength of unsaturated soil?",
+a:`<div class="f">τ = c′ + (σ − u<sub>a</sub>) tan φ′ + (u<sub>a</sub> − u<sub>w</sub>) tan φ<sup>b</sup></div><ul><li>Matric suction (u<sub>a</sub> − u<sub>w</sub>) adds apparent cohesion (Fredlund's extended Mohr-Coulomb).</li><li>The soil-water characteristic curve links suction to water content.</li><li>Not normally relied on in design because rain can remove it.</li></ul>`},
+{id:"B16",p:"B",q:"Explain the compaction curve and why fill is specified at 95% relative compaction.",
+a:`<ul><li>Dry density against water content peaks at the optimum moisture content (OMC) and maximum dry density (MDD); the zero air voids line bounds it.</li><li>Dry of optimum: stiffer, more brittle, may collapse on wetting. Wet of optimum: more flexible, lower permeability.</li><li>95% relative compaction makes fill dense enough to be dilative, avoiding liquefaction and limiting settlement. Check by sand replacement or nuclear density tests.</li></ul>`},
+
+{id:"C6",p:"C",q:"How do you measure permeability, and why do results vary?",
+a:`<ul><li>Lab: constant head (sands) and falling head (silts, clays).</li><li>Field: falling or rising head tests in boreholes or standpipes, packer tests in rock, and pumping tests (most representative).</li><li>Field values are usually higher, because they include fabric, joints and lenses that small samples miss.</li></ul>`},
+{id:"C7",p:"C",q:"What are the risks of dewatering for an excavation, and how do you control them?",
+a:`<ul><li>Lowering groundwater raises effective stress, causing settlement of nearby compressible ground and buildings on shallow foundations.</li><li>It can also draw in fines, causing loss of ground.</li><li>Controls: cut-off walls to reduce drawdown outside, recharge wells, monitoring of groundwater and settlement with trigger levels.</li></ul>`},
+{id:"C8",p:"C",q:"What is rapid drawdown, and why is it critical?",
+a:`<ul><li>When water outside a slope (reservoir, river) drops quickly, pore pressures inside the slope lag behind.</li><li>The supporting water load is lost while internal pore pressure stays high, so FOS drops sharply.</li><li>Critical for dams, catchwaters and slopes next to water. Analyse with undrained or transient seepage methods.</li></ul>`},
+{id:"C9",p:"C",q:"When would you use transient seepage analysis instead of a steady state assumption?",
+a:`<ul><li>When groundwater changes with time: rainfall infiltration, perched water build-up, rapid drawdown, dewatering.</li><li>Uses unsaturated permeability functions and the soil-water characteristic curve, with a rainfall boundary (e.g. finite element software).</li><li>Results are sensitive to input; calibrate against piezometer records where possible.</li></ul>`},
+{id:"C10",p:"C",q:"State the filter design criteria for a granular filter.",
+a:`<ul><li>Retention: D<sub>15</sub>(filter) / D<sub>85</sub>(soil) ≤ 4–5, so soil particles don't wash through.</li><li>Permeability: D<sub>15</sub>(filter) / D<sub>15</sub>(soil) ≥ 4–5, so water passes freely.</li><li>Also check uniformity and avoid segregation. Geotextiles use equivalent opening size criteria.</li></ul>`},
+{id:"C11",p:"C",q:"How do leaking water-carrying services affect slopes, and how are they controlled?",
+a:`<ul><li>Leaks add water locally, raising pore pressure and softening soil; a known cause of failures (e.g. Kwun Lung Lau, 1994).</li><li>Controls: locate services in desk study, leak detection, regular monitoring under Geoguide 5, diversion or sleeving away from slopes, and owner coordination.</li></ul>`},
+
+{id:"D8",p:"D",q:"What is a Mazier sampler, and why is it used in Hong Kong?",
+a:`<ul><li>A triple-tube core barrel with a spring-loaded inner tube that projects ahead of the bit, protecting the sample from drilling fluid.</li><li>It recovers good-quality samples of weathered soils (CDG, CDV) that are too hard for push samplers.</li><li>Samples are still disturbed somewhat; check for drilling damage before testing.</li></ul>`},
+{id:"D9",p:"D",q:"Define TCR, SCR and RQD.",
+a:`<ul><li>TCR: total core recovered as a percentage of the run length.</li><li>SCR: solid full-diameter core as a percentage of the run.</li><li>RQD: total length of sound core pieces ≥ 100 mm, as a percentage of the run. An index of rock mass fracturing, used in Q and RMR.</li></ul>`},
+{id:"D10",p:"D",q:"What do you record in a rock joint survey?",
+a:`<ul><li>Orientation (dip and dip direction), spacing, persistence, roughness (JRC), aperture, infill type and thickness, wall strength, and water.</li><li>Scanline or window mapping to avoid orientation bias; plot on a stereonet.</li><li>Infill and persistence often control stability more than orientation alone.</li></ul>`},
+{id:"D11",p:"D",q:"What geophysical methods are used in GI, and what are their limits?",
+a:`<ul><li>Seismic refraction: rockhead profile; fails where a fast layer overlies a slow one.</li><li>Resistivity: water, clay, cavities in marble; non-unique interpretation.</li><li>Ground penetrating radar: shallow features, voids, buried services; poor in clay or wet ground.</li><li>Always calibrate against drillholes.</li></ul>`},
+{id:"D12",p:"D",q:"What instruments would you specify to monitor a deep excavation?",
+a:`<ul><li>Inclinometers in or behind the wall, settlement markers on ground and buildings, tilt markers, piezometers and standpipes, strut load or strain gauges, utility monitoring.</li><li>Set Alert-Alarm-Action levels from the predicted movements, with agreed responses at each level.</li><li>Take baselines before work starts.</li></ul>`},
+{id:"D13",p:"D",q:"How do you investigate whether a fill slope is loose?",
+a:`<ul><li>Desk study: when and how the fill was placed (aerial photos, records).</li><li>In-situ density tests (e.g. sand replacement) in trial pits at several depths, and lab compaction tests for maximum dry density, giving relative compaction.</li><li>Also check fill thickness, groundwater and what's at the toe; triaxial tests can show contractive behaviour.</li></ul>`},
+{id:"D14",p:"D",q:"What index tests are done on soils, and what are they used for?",
+a:`<ul><li>Moisture content, particle size distribution, Atterberg limits, particle density, bulk density.</li><li>Uses: classification, correlation of behaviour (e.g. plasticity with compressibility), filter design, compaction control.</li></ul>`},
+{id:"D15",p:"D",q:"What do you check when supervising a GI contract?",
+a:`<ul><li>Hole locations and levels, method compliance with the specification, sampling and SPT procedure, water level records at start and end of shift.</li><li>Logging against Geoguide 3, sample handling and labelling, core boxes photographed.</li><li>Safety: rigs on slopes, platforms, traffic, utilities. Update the GI as findings come in.</li></ul>`,
+fu:"Give an example where your checking found a logging or procedure error."},
+
+{id:"E11",p:"E",q:"How do you choose between bored piles, driven H-piles, socketed H-piles and mini-piles in Hong Kong?",
+a:`<ul><li>Bored piles: large loads, can be founded on rock; slower, need base cleaning and inspection.</li><li>Driven H-piles: quick, cost-effective in suitable soils; noise and vibration, limited by boulders.</li><li>Socketed H-piles: steel H-section grouted into rock sockets; good where rockhead is shallow to moderate.</li><li>Mini-piles: restricted access, underpinning.</li><li>Factors: ground profile, rockhead depth, load, noise, vibration, nearby structures, cost and programme.</li></ul>`},
+{id:"E12",p:"E",q:"How is a static pile load test carried out and judged?",
+a:`<ul><li>Maintained load test, typically to twice working load, applied in stages with holding periods; record settlement against load and time.</li><li>Acceptance in Hong Kong is by settlement criteria in the Code of Practice for Foundations, based on elastic shortening plus a toe allowance. Know the formula.</li><li>Also check residual settlement after unloading.</li></ul>`},
+{id:"E13",p:"E",q:"How are rock socketed piles designed?",
+a:`<ul><li>Capacity from end bearing and shaft friction in the rock socket. The Code of Practice for Foundations gives presumed values by rock grade and quality.</li><li>Confirm rock quality below the base (e.g. pre-drilling a few metres below founding level).</li><li>Base cleanliness and socket inspection are critical; soft debris at the base cuts capacity.</li></ul>`},
+{id:"E14",p:"E",q:"Name ground improvement methods and when each fits.",
+a:`<ul><li>Vertical drains plus surcharge: soft clay consolidation.</li><li>Deep cement mixing: soft clay strength and settlement control.</li><li>Jet grouting: cut-offs, underpinning, base plugs, mixed ground.</li><li>Permeation grouting: sand and gravel cut-offs.</li><li>Vibro-compaction and stone columns: loose sand, reclamation fill.</li><li>Dynamic compaction: loose granular fill, away from sensitive structures.</li></ul>`},
+{id:"E15",p:"E",q:"Compare excavation support wall types.",
+a:`<ul><li>Sheet piles: quick, watertight; limited by boulders and depth, noisy if driven.</li><li>Soldier piles and lagging: cheap, not watertight.</li><li>Pipe pile walls: through mixed ground with boulders, used in Hong Kong.</li><li>Contiguous or secant bored piles: stiffer; secant walls cut off water.</li><li>Diaphragm walls: deep, stiff, watertight; can be permanent walls.</li><li>Choose by depth, groundwater, ground, movement limits and space.</li></ul>`},
+{id:"E16",p:"E",q:"How do you check basal heave in a soft clay excavation?",
+a:`<div class="f">FOS = N<sub>c</sub> s<sub>u</sub> / (γH + q)</div><ul><li>Bjerrum and Eide: N<sub>c</sub> depends on excavation shape and depth.</li><li>Remedies: deeper embedment into stiffer soil, base improvement (jet grout or DCM slab), excavating in strips under water.</li></ul>`},
+{id:"E17",p:"E",q:"How do you estimate ground movement behind an excavation, and its effect on buildings?",
+a:`<ul><li>Empirical charts (Peck, Clough and O'Rourke) relate settlement to depth and support stiffness; numerical analysis for detail.</li><li>Movements depend on wall stiffness, prop spacing and preload, workmanship and dewatering.</li><li>Assess buildings with damage categories (Burland), and set monitoring trigger levels.</li></ul>`},
+{id:"E18",p:"E",q:"What measures are used to stabilise rock slopes?",
+a:`<ul><li>Scaling of loose blocks, rock bolts and dowels, buttresses for overhangs, mesh and netting, shotcrete in weak zones, and drainage holes.</li><li>Protective measures: catch fences, barriers, ditches at the toe.</li><li>Choose from kinematic analysis and block size.</li></ul>`},
+{id:"E19",p:"E",q:"What are the Q and RMR rock mass classification systems used for?",
+a:`<ul><li>Q: RQD, joint set number, roughness, alteration, water and stress reduction factor; widely used for tunnel support charts.</li><li>RMR: strength, RQD, spacing, joint condition, water, orientation adjustment.</li><li>Both are empirical; use for preliminary support and correlations, then verify by observation.</li></ul>`},
+{id:"E20",p:"E",q:"What is the Hoek-Brown criterion, and why use it?",
+a:`<ul><li>A non-linear strength envelope for rock masses, using intact strength σ<sub>ci</sub>, material constant m<sub>i</sub>, and the Geological Strength Index (GSI) to reduce to mass strength.</li><li>Suits fractured rock masses, where a linear Mohr-Coulomb fit is poor.</li><li>Not for rock controlled by a few dominant joints; use kinematic analysis then.</li></ul>`},
+{id:"E21",p:"E",q:"What are the geotechnical concerns with drill-and-blast tunnelling in Hong Kong?",
+a:`<ul><li>Vibration and airblast: peak particle velocity limits for nearby structures, slopes and utilities; blast design and monitoring.</li><li>Explosives need statutory approval and control.</li><li>Overbreak, wedge stability, groundwater inflow and drawdown; face mapping to confirm support.</li></ul>`},
+{id:"E22",p:"E",q:"What are the main geotechnical issues in reclamation?",
+a:`<ul><li>Consolidation of underlying marine mud: settlement magnitude and timing, often handled by drains plus surcharge or DCM.</li><li>Residual settlement after handover, affecting buildings, roads and utilities.</li><li>Seawall stability, mud waves during filling, and liquefaction potential of loose sand fill.</li></ul>`},
+
+{id:"F10",p:"F",q:"(C12) Give an example where site conditions differed from the design, and what you did.",
+a:`<ul><li>Use a real case from GE/2020/05 (e.g. rockhead or fill different from the GI, groundwater found, a buried feature).</li><li>Structure: what you saw, how you judged the risk, who you informed, the change you made or proposed, and the outcome.</li><li>Show that you recognised when to stop and get the designer's input.</li></ul>`},
+{id:"F11",p:"F",q:"(C6) How did you plan and control programme on your contract?",
+a:`<ul><li>Explain the programme reviews, critical activities, rain weather allowances, and how you tracked progress against Task Orders.</li><li>Show an example of a delay you anticipated and the early warning or action you took.</li></ul>`},
+{id:"F12",p:"F",q:"(C6) How did you prepare budgets and expenditure forecasts?",
+a:`<ul><li>Cost estimates from quantities and rates (BQ), contingency for ground risk, year-by-year expenditure forecasts against the approved budget.</li><li>Monthly tracking of interim payments, CEs and remaining risks; explain variances.</li><li>Give real figures from your contract.</li></ul>`},
+{id:"F13",p:"F",q:"(C2) How is geotechnical control applied to public and private works in Hong Kong?",
+a:`<ul><li>Public works: GEO checks geotechnical submissions for slopes and retaining walls under the relevant Works technical circulars.</li><li>Private works: Buildings Ordinance submissions to BD, with GEO advising on geotechnical aspects; RGE involvement where required.</li><li>Special controls in Scheduled Areas and near railways.</li></ul>`,
+fu:"What is a Registered Geotechnical Engineer responsible for under the Buildings Ordinance?"},
+{id:"F14",p:"F",q:"(C7) How is site supervision organised for geotechnical works under the Buildings Ordinance?",
+a:`<ul><li>Code of Practice for Site Supervision: supervision plans, with Technically Competent Persons (TCP grades) assigned according to the works' risk.</li><li>The RGE's stream supervises geotechnical works such as slopes, retaining walls and excavations.</li><li>Relate to your own site supervision role and what you checked.</li></ul>`},
+{id:"F15",p:"F",q:"(C8) The client wants to cut cost by reducing the works below what you consider safe. What do you do?",
+a:`<ul><li>Explain the risk clearly, with evidence: what could fail and the consequences.</li><li>Offer alternatives that save cost without lowering safety (e.g. a different nail pattern, staged works).</li><li>Do not sign off a design you believe is unsafe; record the advice and escalate. Public safety comes first under the HKIE Rules of Conduct.</li></ul>`},
+{id:"F16",p:"F",q:"(C10) How would you explain landslide risk to residents or a District Council?",
+a:`<ul><li>Plain language: what the hazard is, how likely, what is at risk, what is being done, and how long it takes.</li><li>Use photos and simple sketches, not jargon or FOS values.</li><li>Be honest about uncertainty, and say what residents can do (e.g. reporting signs of distress).</li></ul>`},
+{id:"F17",p:"F",q:"(C6) How do you control quality on geotechnical works?",
+a:`<ul><li>Inspection and test plans with hold points (e.g. drilled length checked before grouting, rock exposed before concreting).</li><li>Material tests (grout cubes, bar certificates), TDR or pull-out tests, records and photos.</li><li>Non-conformance reports, corrective action, and checking the fix.</li></ul>`},
+{id:"F18",p:"F",q:"(C9) How should designers respond to climate change and more extreme rainfall?",
+a:`<ul><li>Use updated rainfall data and consider higher intensities in drainage design and design groundwater.</li><li>Favour robust, redundant designs (e.g. hybrid nails, larger drainage capacity), and resilience against debris.</li><li>Better monitoring and early warning; low-carbon solutions in construction.</li></ul>`},
+{id:"F19",p:"F",q:"Why are you applying for MHKIE(G), and what is your plan after?",
+a:`<ul><li>Link to your geotechnical career: you already take responsibility for slope design and site supervision.</li><li>Route: MHKIE(G), then RPE(G), then RGE experience.</li><li>Show commitment: CPD, Geotechnical Division activities, mentoring juniors.</li></ul>`}
+);
+Q.push(
+{id:"A23",p:"A",q:"A new building is planned close to the crest of an existing slope. What do you check?",
+a:`<ul><li>Add the foundation load as a surcharge in the slope stability analysis, and check the FOS still meets the required standard.</li><li>Bearing capacity of the foundation is reduced near a slope crest; use sloping-ground factors or analyse the combined slip surface.</li><li>Check construction effects: excavation for the foundation, vibration from piling, and changes to drainage or infiltration.</li><li>Consider founding below the potential slip surface (e.g. piles) so no load reaches the slope.</li></ul>`},
+{id:"A24",p:"A",q:"How is debris mobility analysed for natural terrain hazards in Hong Kong?",
+a:`<ul><li>Debris is modelled as a continuum flowing down the terrain, giving velocity, flow depth and run-out distance (e.g. GEO's 3d-DMM).</li><li>A common rheology is Voellmy: a friction term plus a turbulence term. Parameters are calibrated against back-analysed Hong Kong landslides.</li><li>Results give the design impact velocity and thickness at the barrier, and whether debris reaches facilities.</li></ul>`,
+fu:"How sensitive is the run-out to the friction coefficient, and how did you choose it?"},
+{id:"A25",p:"A",q:"What load cases do you consider for a rigid debris-resisting barrier?",
+a:`<ul><li>Dynamic debris impact (hydrodynamic approach).</li><li>Boulder impact within the debris, often with a cushion layer to spread the load.</li><li>Static pressure from debris deposited behind the barrier, plus any water.</li><li>Check structural capacity, sliding, overturning and bearing of the barrier; and overflow if the barrier is filled.</li></ul>`},
+{id:"A26",p:"A",q:"What are the main components of a flexible debris-resisting barrier?",
+a:`<ul><li>Ring or mesh net that catches debris, support and top ropes, posts, and energy-dissipating devices (brake elements) that absorb energy by deforming.</li><li>Anchors take the rope forces into the ground; they need testing.</li><li>Design checks: energy and force capacity, deflection and clearance downstream, post-impact capacity, and maintenance access for removing debris.</li></ul>`},
+{id:"A27",p:"A",q:"How do you set soil nail lengths?",
+a:`<ul><li>Each nail needs enough bond length beyond the critical slip surface to provide its design force; check many slip surfaces, not only the most critical unnailed one.</li><li>Also check slip surfaces passing behind the nails (external stability).</li><li>Practical limits: minimum length, avoiding services, foundations and lot boundaries, and drill rig reach.</li></ul>`},
+{id:"A28",p:"A",q:"A landslide has just occurred on a slope you are responsible for. How do you investigate it?",
+a:`<ol><li>Safety first: keep people away, check for further movement.</li><li>Record quickly before evidence is lost: photos, dimensions, volume, scarp, debris path, seepage, damaged services.</li><li>Collect rainfall data, slope history, previous inspections and works.</li><li>Work out the mechanism and causes: geology, groundwater, drainage, services, maintenance.</li><li>Recommend urgent repair works and long-term upgrading.</li></ol>`},
+{id:"A29",p:"A",q:"What urgent measures would you take immediately after a landslide?",
+a:`<ul><li>Advise on evacuation or closure of affected areas; barricade the scar and debris path.</li><li>Cover the scar with impermeable sheets, divert surface water away, check and isolate leaking services.</li><li>Avoid loading the crest; remove debris only when safe.</li><li>Monitor for further movement (survey markers, visual checks after rain).</li></ul>`},
+{id:"A30",p:"A",q:"What are the key design checks for a reinforced fill structure (Geoguide 6)?",
+a:`<ul><li>External: sliding, overturning (eccentricity), bearing capacity, and overall stability of the reinforced block.</li><li>Internal: tensile rupture of reinforcement, pull-out, and connection strength at the facing.</li><li>Compound: slip surfaces passing partly through the reinforced zone.</li><li>Materials: well-graded fill with electrochemical limits for metal strips, and creep and damage reduction factors for polymer reinforcement.</li></ul>`},
+{id:"A31",p:"A",q:"What do you consider when designing a gabion wall?",
+a:`<ul><li>Acts as a mass gravity wall: check sliding, overturning, bearing and overall stability.</li><li>Free-draining, so usually little water pressure, but a filter is needed behind to stop fines washing out.</li><li>Durability: wire corrosion protection (galvanising, PVC coating) and durable rock fill of the right size.</li><li>Tolerates movement, but not suitable where large settlement or high loads are expected.</li></ul>`},
+{id:"A32",p:"A",q:"What is quantitative risk assessment (QRA) for landslides?",
+a:`<ul><li>Risk = likelihood of landslide × probability it reaches people × vulnerability × number exposed.</li><li>Individual risk: annual chance of death for the most exposed person. Societal risk: F-N curve of frequency against number of deaths.</li><li>Results are compared with risk guidelines: unacceptable, tolerable if as low as reasonably practicable (ALARP), or broadly acceptable.</li><li>Used for natural terrain and for prioritising works.</li></ul>`},
+{id:"A33",p:"A",q:"How would you design a cut slope where joints dip out of the face?",
+a:`<ul><li>Map the joints and do a kinematic analysis on a stereonet to find planar and wedge failure modes.</li><li>Analyse critical blocks with joint water pressure.</li><li>Options: flatten the cut to below the joint dip, rock bolts or dowels across the joints, buttresses, drainage holes, and protective netting or a catch fence.</li></ul>`},
+
+{id:"B17",p:"B",q:"What controls the shear strength of saprolite such as CDG?",
+a:`<ul><li>Typically low c′ (around 0–10 kPa) and φ′ around 35–38°; check against Geoguide 1 typical values and your own tests.</li><li>Relict structure matters: relict joints, especially with kaolin infill, can be much weaker than the intact material.</li><li>Suction adds strength in unsaturated conditions but is lost on wetting.</li><li>Sample disturbance tends to underestimate strength from structure and bonding.</li></ul>`},
+{id:"B18",p:"B",q:"In an undrained triaxial test, how do the total and effective stress Mohr circles compare?",
+a:`<ul><li>They have the same diameter, because the deviator stress is the same.</li><li>The effective circle is shifted left by the pore pressure u (right if u is negative).</li><li>Undrained strength s<sub>u</sub> is the radius of the total circle; the effective circle touches the c′, φ′ envelope.</li></ul>`},
+{id:"B19",p:"B",q:"Why is soil stiffness not a single number, and why does it matter?",
+a:`<ul><li>Stiffness falls with strain: very high at small strain (G<sub>0</sub> from seismic tests), much lower at larger strain.</li><li>Typical strains around foundations and excavations are small, so lab stiffness from large-strain tests underestimates real stiffness.</li><li>Using the wrong stiffness gives wrong movement predictions for excavations and foundations.</li></ul>`},
+{id:"B20",p:"B",q:"What causes overconsolidation?",
+a:`<ul><li>Removal of overburden by erosion or excavation.</li><li>Desiccation (drying) near the surface.</li><li>A fall then rise in groundwater level.</li><li>Ageing and cementation, giving an apparent preconsolidation pressure.</li></ul>`},
+{id:"B21",p:"B",q:"What are the particle size boundaries for soil?",
+a:`<ul><li>Clay &lt; 0.002 mm; silt 0.002–0.063 mm; sand 0.063–2 mm; gravel 2–63 mm; cobbles 63–200 mm; boulders &gt; 200 mm.</li><li>Description follows Geoguide 3 (and BS 5930): strength or density, colour, structure, then the main soil name.</li></ul>`},
+{id:"B22",p:"B",q:"What happens to clay when it is unloaded, for example at the base of an excavation?",
+a:`<ul><li>Unloading reduces total stress; pore pressure drops (can go negative), then the clay takes in water and swells over time.</li><li>Effects: base heave, uplift on base slabs, tension in piles.</li><li>Short-term the clay is stronger (negative pore pressure); long-term it softens, so the long-term condition is critical.</li></ul>`},
+{id:"B23",p:"B",q:"How do you estimate the shear strength of a rock joint?",
+a:`<ul><li>Clean rough joint: basic friction φ<sub>b</sub> plus roughness. Patton: φ<sub>b</sub> + i (asperity angle).</li><li>Barton: τ = σ′<sub>n</sub> tan[φ<sub>r</sub> + JRC log<sub>10</sub>(JCS/σ′<sub>n</sub>)], so roughness counts for less at higher normal stress.</li><li>Infilled joint: if the infill is thicker than the asperities, use the infill strength, which can be much lower.</li></ul>`},
+
+{id:"C12",p:"C",q:"How do you design drainage behind a retaining wall?",
+a:`<ul><li>Provide a drainage layer or filter behind the wall, weepholes through the wall, and a collector at the base.</li><li>The filter must stop fines washing out but let water through freely.</li><li>If drainage could block, design for higher water pressure, or for full hydrostatic pressure in the worst case.</li><li>Maintain weepholes: blocked weepholes are a common sign of trouble.</li></ul>`},
+{id:"C13",p:"C",q:"What are soil pipes, and why do they matter in Hong Kong slopes?",
+a:`<ul><li>Natural erosion tunnels in colluvium and saprolite that carry concentrated water flow.</li><li>They can raise pore pressure locally or cause sudden erosion and collapse; several Hong Kong failures have been linked to them.</li><li>Look for outflow points and voids during mapping; they are hard to find in drillholes. Design drainage and surface protection to cope.</li></ul>`},
+{id:"C14",p:"C",q:"How is water pressure included in a rock slope planar failure analysis?",
+a:`<ul><li>Water in a tension crack of depth z<sub>w</sub> pushes the block: V = ½ γ<sub>w</sub> z<sub>w</sub>².</li><li>Water along the sliding plane gives uplift U, reducing the normal force and friction.</li><li>FOS = [cA + (W cos ψ − U − V sin ψ) tan φ] / (W sin ψ + V cos ψ), with ψ the plane dip.</li><li>Drainage holes reduce U and V and are very effective.</li></ul>`},
+{id:"C15",p:"C",q:"Why might piezometers in the same slope give very different readings?",
+a:`<ul><li>Different layers: perched water above a less permeable layer versus the main water table.</li><li>Different response times: standpipes respond slowly; tips in low permeability soil lag.</li><li>Local effects: soil pipes, leaking services, relict joints.</li><li>Check installation details (response zone, seals) before trusting a reading.</li></ul>`},
+
+{id:"D16",p:"D",q:"What does a piezocone test (CPTu) give, and where is it useful in Hong Kong?",
+a:`<ul><li>Cone resistance, sleeve friction and pore pressure with depth: continuous soil profiling.</li><li>Undrained strength from s<sub>u</sub> = (q<sub>t</sub> − σ<sub>v</sub>)/N<sub>kt</sub>; consolidation coefficient from dissipation tests.</li><li>Very useful in marine deposits; limited in residual soils with corestones, boulders or dense layers.</li></ul>`},
+{id:"D17",p:"D",q:"What is a field vane test, and what correction is applied?",
+a:`<ul><li>A four-bladed vane is pushed into soft clay and rotated; torque at failure gives undrained strength.</li><li>Vane strength often overestimates field strength in high-plasticity clay, so a correction based on plasticity index is applied (Bjerrum).</li><li>Only for soft to firm clays without sand or shells.</li></ul>`},
+{id:"D18",p:"D",q:"How is the point load test used to estimate rock strength?",
+a:`<ul><li>A core or lump is loaded between two cones to failure; the result is corrected to a 50 mm size: I<sub>s(50)</sub>.</li><li>UCS is roughly 20–25 × I<sub>s(50)</sub>, but the factor varies with rock type, so calibrate with some UCS tests.</li><li>Quick and cheap; useful for many readings along core.</li></ul>`},
+{id:"D19",p:"D",q:"What does a pressuremeter test measure?",
+a:`<ul><li>A probe in a borehole expands against the wall; pressure against expansion gives the shear modulus and limit pressure.</li><li>Gives in-situ stiffness for excavation and foundation analysis, including unload-reload stiffness.</li><li>Results depend on borehole quality and installation disturbance.</li></ul>`},
+{id:"D20",p:"D",q:"How does rock strength change with weathering grade in Hong Kong granite?",
+a:`<ul><li>Fresh granite (Grade I–II) is very strong, often over 100 MPa UCS.</li><li>Strength drops sharply through Grade III to Grade IV; Grade V and VI behave as soil.</li><li>Weathering is uneven, so rockhead can be irregular with corestones; drilling must go far enough into sound rock to confirm.</li></ul>`},
+{id:"D21",p:"D",q:"What is a plate load test, and what are its limits?",
+a:`<ul><li>A rigid plate on the ground is loaded in stages; settlement gives bearing behaviour and stiffness of near-surface ground.</li><li>Limit: it only tests ground to about 1.5–2 × plate width deep, so a full-size foundation stresses deeper layers that the test misses.</li></ul>`},
+{id:"D22",p:"D",q:"What is a packer (Lugeon) test?",
+a:`<ul><li>A section of borehole in rock is sealed with packers and water is pumped in at set pressures to measure intake.</li><li>1 Lugeon = 1 litre per minute per metre at 1 MPa. Gives rock mass permeability.</li><li>The pressure–flow pattern shows joint behaviour (e.g. washing out or jacking open).</li></ul>`},
+
+{id:"E23",p:"E",q:"How does a pile group behave differently from a single pile?",
+a:`<ul><li>Stress zones overlap, so group settlement is larger than single-pile settlement under the same load per pile.</li><li>In clay, check block failure of the whole group as one unit.</li><li>Capacity per pile in a group can be less (efficiency below 1) in clay, or similar in sand where driving densifies the ground.</li></ul>`},
+{id:"E24",p:"E",q:"How do you design piles for lateral load?",
+a:`<ul><li>Short rigid piles rotate and fail by soil yield; long flexible piles fail by bending in the pile (Broms' method).</li><li>Load–deflection with p-y curves or a subgrade reaction model, or numerical analysis.</li><li>Head fixity (free or fixed to a pile cap) strongly affects moments and deflection.</li></ul>`},
+{id:"E25",p:"E",q:"Compare prestressed ground anchors with soil nails.",
+a:`<ul><li>Anchors: active, prestressed and locked off; have a free length and a fixed (bonded) length; each anchor is proof tested.</li><li>Nails: passive, fully bonded, take load only as the ground moves; tested by sampling.</li><li>Anchors control movement better and suit high loads; they need durable corrosion protection and long-term monitoring of load.</li></ul>`},
+{id:"E26",p:"E",q:"What is the role of bentonite slurry in diaphragm wall construction?",
+a:`<ul><li>The slurry's pressure supports the trench sides; a filter cake forms on the trench wall so the pressure acts on the soil.</li><li>Control density, viscosity, sand content and pH; desand before concreting.</li><li>Keep the slurry level well above groundwater; a sudden loss of slurry can cause trench collapse.</li></ul>`},
+{id:"E27",p:"E",q:"What special controls apply to works near railway structures in Hong Kong?",
+a:`<ul><li>Railway protection areas: works need the railway operator's agreement and BD requirements (see the relevant Practice Note for railway protection).</li><li>Strict limits on movement, vibration and loading of tunnels and structures; condition surveys before and after.</li><li>Monitoring with Alert-Alarm-Action levels and agreed responses.</li></ul>`},
+{id:"E28",p:"E",q:"What methods are used to underpin existing foundations?",
+a:`<ul><li>Mini-piles through or beside the footing, needling beams.</li><li>Mass concrete underpinning in short pits (like pit-by-pit).</li><li>Jet grouting or permeation grouting to strengthen the ground.</li><li>Monitor the building throughout; control sequence to limit movement.</li></ul>`},
+{id:"E29",p:"E",q:"What is the observational method, and when is it appropriate?",
+a:`<ul><li>Peck: design for the most probable conditions, plan contingency measures for worse conditions, monitor, and act on pre-set trigger values.</li><li>Suits works where ground behaviour is uncertain and changes can be made during construction (excavations, tunnels).</li><li>Not suitable where failure would be sudden with no warning, or where contingencies can't be applied in time.</li></ul>`},
+{id:"E30",p:"E",q:"How is tunnel support designed in sequential excavation (NATM-type) methods?",
+a:`<ul><li>Excavate in stages and install support (shotcrete, rock bolts, lattice girders) based on the rock or ground class found.</li><li>The ground-support interaction: let the ground deform a little to mobilise its own strength, but not too much.</li><li>Convergence and face monitoring confirm the support works; adjust the support class as needed.</li></ul>`},
+{id:"E31",p:"E",q:"What are the geotechnical considerations for rock caverns?",
+a:`<ul><li>Rock mass quality and joint orientation relative to the cavern axis; avoid major faults.</li><li>Span and shape: wider spans need better rock and more support.</li><li>In-situ stress, groundwater inflow and drawdown, and support design (bolts, shotcrete).</li><li>Hong Kong has used caverns to free land; good rock is often available.</li></ul>`},
+{id:"E32",p:"E",q:"What are the problems with founding on fill?",
+a:`<ul><li>Fill may be loose, variable, and contain voids or organic matter: large and uneven settlement.</li><li>Fill can keep settling under its own weight, and collapse on wetting if placed dry.</li><li>Options: remove and replace, compact, ground improvement, or piles through fill (allow for negative skin friction).</li></ul>`},
+
+{id:"F20",p:"F",q:"Tell us about a mistake you made and what you learned.",
+a:`<ul><li>Choose a real, moderate mistake (e.g. a missed check or an assumption that proved wrong), not a disaster or a fake one.</li><li>Explain how you found it, how you fixed it and who you told.</li><li>End with the change you made to how you work. Assessors look for honesty and reflection.</li></ul>`},
+{id:"F21",p:"F",q:"(C10) How did you coordinate with other disciplines and parties on your projects?",
+a:`<ul><li>Name the parties: utility companies, traffic authorities, landscape architects and arborists, private owners, GEO, BD.</li><li>Give an example of a conflict (e.g. nails clashing with services, tree preservation versus works) and how you resolved it.</li><li>Show meeting records, clear drawings and early warnings.</li></ul>`},
+{id:"F22",p:"F",q:"(C11) What digital tools are changing geotechnical practice?",
+a:`<ul><li>LiDAR and drone surveys for terrain and slope mapping.</li><li>Real-time monitoring with sensors and automatic alerts.</li><li>BIM and 3D geological models for coordination and records.</li><li>Be specific about what you have used yourself, and the limits (data quality, false alarms).</li></ul>`},
+{id:"F23",p:"F",q:"(C6) Compare a traditional contract (GCC) with NEC4.",
+a:`<ul><li>Traditional: Engineer administers, risk allocation fixed, claims often settled late and can be adversarial.</li><li>NEC4: mutual trust and cooperation, early warnings and risk reduction meetings, compensation events assessed with time limits, an accepted programme as a key tool.</li><li>Give your own NEC4 experience as evidence.</li></ul>`},
+{id:"F24",p:"F",q:"(C8) What would you do if you had a conflict of interest?",
+a:`<ul><li>Declare it to your employer or client as soon as you know.</li><li>Step back from decisions affected by it unless the client agrees with full knowledge.</li><li>Link to the HKIE Rules of Conduct and your company's procedures.</li></ul>`},
+{id:"F25",p:"F",q:"(C9) A serious accident happens on your site. What do you do?",
+a:`<ul><li>Make the site safe, get medical help, and stop the related work.</li><li>Report to the right people and authorities as required, and preserve evidence.</li><li>Investigate root causes (not just blame), revise method statements and risk assessments, and share lessons.</li></ul>`},
+{id:"F26",p:"F",q:"(C6) How do you supervise and develop junior staff?",
+a:`<ul><li>Give clear tasks, check their work, explain why, not just what.</li><li>Let them take responsibility gradually, with review.</li><li>Give an example: a site inspector or graduate you guided.</li></ul>`},
+{id:"F27",p:"F",q:"(C9) How can carbon be reduced in geotechnical works?",
+a:`<ul><li>Use less material: optimise design, avoid over-conservatism, reuse existing structures.</li><li>Lower-carbon materials: cement replacement in concrete and grout, recycled aggregates.</li><li>Choose low-carbon solutions (e.g. soil nails and greening instead of large concrete walls, flexible barriers).</li><li>Reduce transport and waste: reuse excavated material on site.</li></ul>`}
+);
+
+Q.sort((x,y)=>x.p===y.p?(parseInt(x.id.slice(1))-parseInt(y.id.slice(1))):x.p.localeCompare(y.p));
+
+const KEY="mhkieg-drill-v1";
+const $=s=>document.querySelector(s);
+let state={filter:"all",order:Q.map((_,i)=>i),pos:0,revealed:false,seen:{},flags:{}};
+
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(!s)return;
+  if(Array.isArray(s.order)&&s.order.length===Q.length)state={...state,...s,revealed:false};
+  else state={...state,seen:s.seen||{},flags:s.flags||{},filter:s.filter||"all"};
+}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({filter:state.filter,order:state.order,pos:state.pos,seen:state.seen,flags:state.flags}));}catch(e){}}
+
+function list(){
+  return state.order.filter(i=>{
+    const q=Q[i];
+    if(state.filter==="all")return true;
+    if(state.filter==="flag")return !!state.flags[q.id];
+    return q.p===state.filter;
+  });
+}
+
+function renderFilters(){
+  const opts=[["all","All"],...Object.keys(PARTS).map(k=>[k,"Part "+k]),["flag","Review later"]];
+  $("#filters").innerHTML=opts.map(([k,l])=>{
+    const sw=PARTS[k]?`<span class="sw" style="background:var(--${k})"></span>`:"";
+    return `<button class="chip" type="button" data-f="${k}" aria-pressed="${state.filter===k}">${sw}${l}</button>`;
+  }).join("");
+}
+
+function render(){
+  const L=list();
+  if(state.pos>=L.length)state.pos=Math.max(0,L.length-1);
+  const card=$("#card");
+  $("#log").innerHTML=L.map((i,n)=>`<span data-n="${n}" class="${state.seen[Q[i].id]?"done":""} ${n===state.pos?"cur":""}" style="background:var(--${Q[i].p})"></span>`).join("");
+  if(!L.length){
+    $("#count").textContent="0 questions";
+    card.innerHTML=`<p class="empty">No questions marked for review yet. While studying, tap “Review later” on any question you want to come back to.</p>`;
+    $("#main").disabled=true;$("#prev").disabled=true;$("#flag").disabled=true;
+    return;
+  }
+  $("#main").disabled=false;$("#prev").disabled=false;$("#flag").disabled=false;
+  const q=Q[L[state.pos]];
+  $("#count").textContent=`${state.pos+1} of ${L.length}`;
+  card.style.setProperty("--accent",`var(--${q.p})`);
+  let h=`<p class="part"><span class="sw" style="background:var(--${q.p})"></span>${q.id} · ${PARTS[q.p]}</p><h2 class="q">${q.q}</h2>`;
+  if(state.revealed){
+    h+=`<div class="a reveal">${q.a}${q.fu?`<div class="fu"><b>Assessor follow-up</b>${q.fu}</div>`:""}</div>`;
+  }else{
+    h+=`<p class="hint">Say your answer out loud, and picture the sketch you would draw. Then check it.</p>`;
+  }
+  card.innerHTML=h;
+  $("#main").textContent=state.revealed?(state.pos===L.length-1?"Back to first question":"Next question"):"Show answer";
+  const f=!!state.flags[q.id];
+  $("#flag").setAttribute("aria-pressed",f);
+  $("#flag").textContent=f?"Marked for review":"Review later";
+}
+
+function go(d){
+  const L=list();if(!L.length)return;
+  state.pos=(state.pos+d+L.length)%L.length;state.revealed=false;
+  $("#card").scrollTop=0;save();render();
+}
+function main(){
+  const L=list();if(!L.length)return;
+  if(!state.revealed){state.revealed=true;state.seen[Q[L[state.pos]].id]=1;save();render();}
+  else go(1);
+}
+
+$("#main").onclick=main;
+$("#prev").onclick=()=>go(-1);
+$("#flag").onclick=()=>{const L=list();if(!L.length)return;const id=Q[L[state.pos]].id;if(state.flags[id])delete state.flags[id];else state.flags[id]=1;save();if(state.filter==="flag"&&!state.flags[id]){render();}else render();};
+$("#filters").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;state.filter=b.dataset.f;state.pos=0;state.revealed=false;save();renderFilters();render();};
+$("#log").onclick=e=>{const s=e.target.closest("span");if(!s)return;state.pos=+s.dataset.n;state.revealed=false;save();render();};
+$("#shuffle").onclick=()=>{const o=Q.map((_,i)=>i);for(let i=o.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[o[i],o[j]]=[o[j],o[i]];}state.order=o;state.pos=0;state.revealed=false;save();render();};
+$("#reset").onclick=()=>{state.order=Q.map((_,i)=>i);state.pos=0;state.revealed=false;state.seen={};save();render();};
+document.addEventListener("keydown",e=>{if(e.target.tagName==="BUTTON"&&(e.key===" "||e.key==="Enter"))return;if(e.key==="ArrowRight"||e.key===" "){e.preventDefault();main();}else if(e.key==="ArrowLeft"){go(-1);}});
+let tx=null,ty=null;
+$("#card").addEventListener("touchstart",e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+$("#card").addEventListener("touchend",e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){dx<0?main():go(-1);}tx=null;},{passive:true});
+
+load();renderFilters();render();
+if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("sw.js").catch(()=>{});}
+</script>
+</body>
+</html>

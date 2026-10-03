@@ -14,7 +14,7 @@
 :root{
   --paper:#EDF0EA; --sheet:#F8F9F5; --ink:#1E272B; --muted:#5C676B; --rule:#CBD1C8;
   --btn:#24363D; --btn-ink:#F8F9F5; --soft:#DDE3DA;
-  --A:#8C6A4A; --B:#B39A6C; --C:#4C7A93; --D:#A2655A; --E:#6B7D5A; --F:#615A78;
+  --A:#8C6A4A; --B:#B39A6C; --C:#4C7A93; --D:#A2655A; --E:#6B7D5A; --F:#615A78; --G:#3F6E6A;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
   box-sizing:border-box;
@@ -25,13 +25,13 @@
   :root:not([data-theme="light"]){
     --paper:#151B1D; --sheet:#1D2528; --ink:#E6EAE4; --muted:#9AA5A8; --rule:#334044;
     --btn:#D9E2DC; --btn-ink:#152024; --soft:#28343A;
-    --A:#B68E68; --B:#CDB687; --C:#6FA2BE; --D:#C78577; --E:#93A77F; --F:#9A91B8;
+    --A:#B68E68; --B:#CDB687; --C:#6FA2BE; --D:#C78577; --E:#93A77F; --F:#9A91B8; --G:#7DB1AB;
   }
 }
 :root[data-theme="dark"]{
   --paper:#151B1D; --sheet:#1D2528; --ink:#E6EAE4; --muted:#9AA5A8; --rule:#334044;
   --btn:#D9E2DC; --btn-ink:#152024; --soft:#28343A;
-  --A:#B68E68; --B:#CDB687; --C:#6FA2BE; --D:#C78577; --E:#93A77F; --F:#9A91B8;
+  --A:#B68E68; --B:#CDB687; --C:#6FA2BE; --D:#C78577; --E:#93A77F; --F:#9A91B8; --G:#7DB1AB;
 }
 *,*::before,*::after{box-sizing:inherit}
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -81,6 +81,7 @@ footer button{font:600 1rem var(--sans);border-radius:10px;padding:14px 14px;cur
 .primary{background:var(--btn);color:var(--btn-ink);border:0}
 button:focus-visible{outline:3px solid var(--C);outline-offset:2px}
 .tools{display:flex;gap:14px;justify-content:flex-end;padding:0 16px 6px;font-size:.8125rem}
+.tools a{color:var(--muted);font:600 .8125rem var(--sans);padding:4px 0;text-underline-offset:3px}
 .tools button{background:none;border:0;color:var(--muted);font:600 .8125rem var(--sans);padding:4px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .empty{color:var(--muted);font-size:1rem;line-height:1.5}
 </style>
@@ -89,7 +90,7 @@ button:focus-visible{outline:3px solid var(--C);outline-offset:2px}
 <div class="app">
   <header>
     <div class="toprow">
-      <h1>MHKIE(G) interview drill</h1>
+      <h1>Question Bank</h1>
       <span class="count" id="count"></span>
     </div>
     <div class="filters" id="filters" role="group" aria-label="Filter by part"></div>
@@ -97,6 +98,7 @@ button:focus-visible{outline:3px solid var(--C);outline-offset:2px}
   <div class="tools">
     <button id="shuffle" type="button">Shuffle</button>
     <button id="reset" type="button">Restart</button>
+    <a href="question-bank.pdf" download="Question_Bank.pdf">Download PDF</a>
   </div>
   <main>
     <div class="log" id="log" aria-hidden="true"></div>
@@ -116,7 +118,8 @@ const PARTS={
   C:"Groundwater and seepage",
   D:"Ground investigation and lab testing",
   E:"Breadth: ELS, foundations, soft clay, rock, tunnels",
-  F:"Professional practice and competences"
+  F:"Professional practice and competences",
+  G:"Retaining walls (Geoguide 1)"
 };
 const Q=[
 {id:"A1",p:"A",q:"Explain static liquefaction of a loose fill slope using a stress path in p′–q space. Why was recompaction of the top 3 m the traditional remedy?",
@@ -507,6 +510,63 @@ a:`<ul><li>Normally nails and grout have no significant damming effect.</li><li>
 a:`<ul><li>Honeycombing beneath the bearing plate is a common defect.</li><li>With sprayed concrete, build in two stages: spray to a set thickness, then fix the bearing plate and tighten the nut, then spray the second stage.</li><li>Clean the bar threads and protect them (galvanised or zinc-rich paint). Embed the corrugated sheathing into the head as specified.</li><li>Uncover some heads as a quality check if needed. Recess heads and paint matt where appearance matters.</li></ul>`},
 {id:"A50",p:"A",q:"What tests are carried out on soil nail materials and installed nails?",
 a:`<ul><li>Material compliance: grout for crushing strength, bleeding and flow cone efflux time; bars for tensile, bend and re-bend tests (frequency per the General Specification for Civil Engineering Works).</li><li>Pull-out tests on sacrificial nails (2% of working nails, minimum two); creep tests where needed.</li><li>Non-destructive: TDR for bar length and grout integrity.</li><li>Destructive (rare): stitch drilling, over-coring or excavation to exhume nails; hard to keep alignment.</li></ul>`}
+);
+Q.push(
+{id:"G1",p:"G",q:"What does Geoguide 1 cover, and what does it not cover?",
+a:`<ul><li>Recommended good practice for <b>new permanent earth retaining walls on land</b> in Hong Kong. It adopts the limit state method with partial factors (2nd edition, 1993; continuously updated e-version on the CEDD website).</li><li>Wall types covered: gravity walls (mass concrete, crib, gabion, reinforced fill), reinforced concrete walls (L-shaped, inverted T, counterfort, buttressed), and cantilevered walls (e.g. bored pile walls).</li><li>Not covered: maritime structures, assessment of existing walls, masonry walls, and temporary deep excavation support (sheet pile, soldier pile, diaphragm walls). For excavations, see GCO Publication No. 1/90, and now GEO Publication No. 1/2023.</li></ul>`,
+fu:"So which documents would you use to assess an old masonry wall? (e.g. Geotechnical Manual for Slopes, GEO Report on old masonry walls, Geoguide 7 if nailing.)"},
+{id:"G2",p:"G",q:"Explain the limit state approach in Geoguide 1.",
+a:`<ul><li>A limit state is reached when the wall, or part of it, fails to meet a performance criterion. Each limit state is checked separately and shown to be sufficiently unlikely.</li><li>Ultimate limit state: a failure mechanism forms in the ground or wall, or severe structural damage occurs. States before collapse (e.g. forward sliding of a gravity wall) are also treated as ultimate.</li><li>Serviceability limit state: movements or strains that make the wall unsightly, need unforeseen maintenance, shorten its life, or affect nearby structures and services.</li><li>Checks can be direct (calculate that the limit state is not reached) or indirect (e.g. the middle-third rule for gravity walls as a deformation check).</li><li>Walls should be ductile: give visible warning before failure, not collapse suddenly.</li></ul>`},
+{id:"G3",p:"G",q:"How are partial safety factors applied in Geoguide 1?",
+a:`<ul><li>Factored load F<sub>f</sub> = γ<sub>f</sub> F; factored material parameter X<sub>f</sub> = X / γ<sub>m</sub>.</li><li>Typical ULS values: soil and wall dead weight γ<sub>f</sub> = 1.0; surcharge γ<sub>f</sub> = 1.5; soil strength c′ and tan φ′ γ<sub>m</sub> = 1.2. Check Tables 6 and 7 for the full set (e.g. undrained strength).</li></ul><div class="f">tan φ′<sub>f</sub> = tan φ′ / γ<sub>m</sub> &nbsp;&nbsp; c′<sub>f</sub> = c′ / γ<sub>m</sub></div><ul><li>Wall friction δ is then assessed from the factored φ′<sub>f</sub>, and ultimate earth pressures use the factored values.</li><li>Sliding: factored base resistance from tan δ<sub>bf</sub> = (tan δ<sub>b</sub>)/γ<sub>m</sub>, with δ<sub>b</sub> from unfactored parameters.</li><li>Serviceability checks: all factors 1.0, except surcharge with a favourable effect gets γ<sub>f</sub> = 0.</li><li>Water pressure: no factor, but use the worst credible groundwater condition.</li><li>Structural design uses unfactored geotechnical loads, then the structural code's load factors.</li></ul>`,
+fu:"Why factor tan φ′ rather than φ′ itself?"},
+{id:"G4",p:"G",q:"What is the 'worst credible groundwater condition' for retaining wall design?",
+a:`<ul><li>The groundwater condition that would arise in extreme events selected for design, assessed from catchment area, recharge potential and drainage.</li><li>It is <b>not</b> the worst possible condition out of context, such as water up to the top of the wall regardless of drainage.</li><li>It is used unfactored in ULS checks; the safety margin comes from the selection itself.</li><li>Accidental water loads (e.g. a burst main) are hard to quantify and are best handled by prescriptive measures such as re-routing or ducting services.</li></ul>`},
+{id:"G5",p:"G",q:"What backfill would you specify behind a retaining wall, and what must be excluded?",
+a:`<ul><li>Ideal: free-draining, durable, high strength and stiffness, free of harmful matter. Sandy soils from weathered granite or volcanic rocks are usual in Hong Kong if they meet the grading and plasticity limits.</li><li>Exclude: peat, vegetation and organic matter; dangerous or combustible material; metal, rubber, plastic; materials prone to volume change (marine mud, swelling clays, collapsible soils); soluble or chemically aggressive material.</li><li>Clay backfill is not recommended (swelling, shrinkage, consolidation, and much larger movement needed to reach active state). Uniform silts are hard to compact. Weathered shales and mudstones, e.g. Lok Ma Chau Formation, can swell.</li><li>Crushed rock fill is very suitable: hard, well graded, max particle 200 mm, not more than 30% decomposed, with a filter against the retained soil.</li><li>Specify compliance tests: grading, Atterberg limits, moisture content, compaction.</li></ul>`},
+{id:"G6",p:"G",q:"What compaction standard does Geoguide 1 recommend for backfill?",
+a:`<ul><li>All backfill, filter and drainage material should be compacted, to <b>at least 95%</b> of maximum dry density.</li><li>For level backfill, the <b>top 1.5 m</b> should be fine soil compacted to <b>at least 98%</b>, to limit infiltration, whether or not the surface is paved.</li><li>Sloping backfill: the same standard for a vertical thickness of <b>at least 3 m</b>.</li><li>Design strength must match the compaction specified. Heavy compaction plant should not be used close to the wall unless it is very massive; specify the allowable compaction plant.</li></ul>`},
+{id:"G7",p:"G",q:"Why can compaction cause higher pressure on a wall than classical earth pressure theory predicts?",
+a:`<ul><li>Compaction plant applies a large temporary load. When it passes, some horizontal stress is locked in, because soil does not unload elastically.</li><li>Near the top, the locked-in lateral pressure can exceed active pressure. Below a certain depth, the normal active or at-rest pressure governs (Ingold's approach).</li><li>Effect: higher pressure on the upper part of the wall, important for stems and light walls.</li><li>Control: account for it in design, limit plant size near the wall, and state the allowable plant on drawings.</li></ul>`},
+{id:"G8",p:"G",q:"How does wall movement affect the earth pressure you design for?",
+a:`<ul><li>No movement: at-rest pressure (K<sub>0</sub>). Wall moving away from soil: pressure drops to active. Wall pushed into soil: pressure rises to passive.</li><li>Only a small movement is needed for active pressure in granular soil; passive needs much more, so passive is usually only partly mobilised in service.</li><li>Rigid or propped walls (e.g. basement walls, walls tied to structures) should be designed for at-rest or higher pressure.</li><li>Cohesive backfill needs far more movement to reach active, so for a given movement the pressure is higher than for granular fill.</li><li>The mode of movement (rotation about top or base, translation) changes the pressure distribution.</li></ul>`},
+{id:"G9",p:"G",q:"What factors govern the choice of retaining wall type?",
+a:`<ul><li>Location, nearby structures, space available and whether the support must stay within the site boundary.</li><li>Wall height and the ground profile to be formed.</li><li>Ground and groundwater conditions.</li><li>Acceptable movement during construction and in service, and effects on neighbours.</li><li>Material availability, construction time, appearance, design life and maintenance.</li><li>Walls usually cost more than forming a slope, so first check whether a wall is needed, and keep the retained height low. Compare whole-life cost of alternatives.</li></ul>`},
+{id:"G10",p:"G",q:"How do you select soil shear strength parameters for retaining wall design (Geoguide 1 Ch. 5)?",
+a:`<ul><li>c′ and φ′ are coefficients of a simplified linear model, valid only over the stress range tested. Envelopes are usually curved; fit to the relevant stress range.</li><li>Be careful with least-squares fits: too few results or variable soil can give a misleading c′.</li><li>Lower bound guide: critical state φ′<sub>cv</sub> about <b>34° for granitic</b> and <b>30° for volcanic</b> Hong Kong soils.</li><li>Compacted fill and residual soil: a c′ = 0 model is often used. Saprolite: consider relict joints and infill; use matrix strength unless corestones can be quantified.</li><li>Watch sampling bias: tested specimens may be stronger (weak material breaks up) or weaker (coarse particles excluded) than the mass.</li><li>Choose cautious "selected values" based on best estimates, test quality, variability and construction effects. Do sensitivity checks.</li></ul>`},
+{id:"G11",p:"G",q:"How much ground investigation and testing does a retaining wall need?",
+a:`<ul><li>Retained height under about 3 m: parameters can usually be based on previous tests on similar materials, with careful description and classification.</li><li>Over about 6 m: determine parameters from laboratory tests on samples chosen by the designer, or from suitable field tests.</li><li>In between: depends on how sensitive the wall dimensions are to the parameters. A preliminary design helps decide.</li><li>Trial pits are recommended where possible, especially for foundations: they show the soil fabric and allow good block samples.</li><li>Map exposures where persistent relict joints could affect the wall (e.g. bored pile walls), and review the design if adverse features appear during construction.</li></ul>`},
+{id:"G12",p:"G",q:"How would you estimate soil stiffness for retaining wall deformation in Hong Kong saprolite?",
+a:`<ul><li>Lab tests often underestimate stiffness because of sample disturbance. Back analysis of similar works is preferred.</li><li>For granitic saprolite, effective Young's modulus has been correlated with SPT N: roughly <b>0.2N to 2N MN/m²</b> (Whiteside, 1986). The wide range reflects different derivation methods.</li><li>Unloading or reloading stiffness is much higher: about <b>3 to 4 times</b> virgin loading for preliminary design.</li><li>Stiffness depends on strain level, stress history, construction disturbance, and drainage.</li><li>Field plate loading tests can be used for large walls, allowing for softening of the ground.</li></ul>`},
+{id:"G13",p:"G",q:"What is the Winkler (subgrade reaction) model, and what are its limitations for cantilevered walls?",
+a:`<ul><li>The wall is modelled as an elastic beam and the soil as a series of independent springs, with pressure proportional to deflection (k<sub>h</sub> = p/y).</li><li>For soil with stiffness increasing with depth, k<sub>h</sub> is taken to increase linearly with depth.</li><li>Limitations: grossly simplified; springs don't interact; the spring stiffness is strain-dependent, so values from very small movements are not valid at large strain.</li><li>Do sensitivity analyses on spring values, and monitor wall deflection to check assumptions.</li></ul>`},
+{id:"G14",p:"G",q:"What checks do you carry out for a gravity retaining wall?",
+a:`<ul><li>ULS: sliding on the base (factored base friction), overturning, bearing capacity of the foundation, overall stability (slip surfaces passing below the wall), and structural failure of the wall body.</li><li>SLS: limit deformation, commonly by the indirect middle-third rule (resultant within the middle third of the base, so no tension at the heel).</li><li>Also check: foundation softening (blinding concrete on CDG below water), future trenches at the toe, drainage behind the wall.</li><li>For crib and gabion walls: free-draining infill, durability of units or wire, and filters.</li></ul>`,
+fu:"Why does keeping the resultant in the middle third limit deformation?"},
+{id:"G15",p:"G",q:"What is the 'virtual back' of an L-shaped or inverted T retaining wall?",
+a:`<ul><li>A vertical plane through the heel. The soil between the stem and this plane is treated as part of the wall for stability checks.</li><li>Earth pressure is calculated on the virtual back, and the weight of soil above the heel adds to stability.</li><li>Surcharge between the stem and the virtual back helps stability, so it is given a factor of zero where favourable (serviceability), and treated cautiously in ULS checks.</li><li>For structural design of the stem, calculate pressure on the actual stem.</li></ul>`},
+{id:"G16",p:"G",q:"How are cantilevered bored pile or caisson walls designed?",
+a:`<ul><li>Embedment from equilibrium of active pressure behind and passive resistance in front, using factored parameters for ULS.</li><li>Where socketed into rock, a simplified wedge analysis is often used for socket design; consider joint orientation and mass strength.</li><li>Persistent adverse relict joints or rock discontinuities can control behaviour, so do detailed geological mapping and review during construction.</li><li>Deflection (SLS) by subgrade reaction or numerical analysis, with monitoring.</li><li>Reduce passive resistance for possible future trenches at the toe.</li></ul>`},
+{id:"G17",p:"G",q:"How should a roadside retaining wall allow for future utility trenches?",
+a:`<ul><li>Geoguide 1: for roadside walls in built-up areas, it is prudent to assume a trench <b>at least 1 m deep</b> at the toe.</li><li>Gravity and RC walls: set the foundation level so future trenching won't undermine the wall.</li><li>Cantilevered walls: reduce passive resistance accordingly.</li><li>Consult the relevant authorities on planned services.</li></ul>`},
+{id:"G18",p:"G",q:"How do you design drainage and filters behind a retaining wall?",
+a:`<ul><li>Provide a drainage layer behind the wall, protected by a filter, with weepholes or outlets. The design water pressure depends on how reliable the drainage is.</li><li>Granular filters must meet retention and permeability criteria against the retained soil. Check grading of actual soil during construction. No-fines concrete must not be used as a filter.</li><li>Geotextile filters are suitable in non-aggressive conditions (e.g. pH 5 to 10): use resistant polymers from established makers, protect from UV, and ensure good contact with the soil.</li><li>Keep drainage clear by maintenance; blocked weepholes are a warning sign.</li></ul>`},
+{id:"G19",p:"G",q:"What surcharge loads must a retaining wall be designed for?",
+a:`<ul><li>Types: uniformly distributed, line, point, area, and horizontal loads, plus seismic.</li><li>Geoguide 1 gives nominal surcharges for common situations; use these as minimums and add actual loads (buildings, cranes, stockpiles).</li><li>Line and point loads: spread using elastic or other methods given in Geoguide 1.</li><li>State limits on surcharge on the drawings, including during construction.</li><li>Seismic load is generally not critical in Hong Kong (low to moderate seismicity), but follow Geoguide 1 Section 7.4.</li></ul>`},
+{id:"G20",p:"G",q:"What temporary works issues does Geoguide 1 raise for retaining wall construction?",
+a:`<ul><li>Responsibility for temporary works design must be clear, and contractor's designs controlled where risk is high.</li><li>Design temporary works to the permanent standard, but allowing for shorter life and less severe conditions (e.g. groundwater).</li><li>Temporary slopes: adequate stability, erosion protection, benching where over about 7.5 m high; remove weak material before backfilling.</li><li>Protect foundations: CDG below water and weak rock deteriorate quickly, so place blinding immediately.</li><li>Groundwater control to prevent piping and weakening; assess dewatering settlement on neighbours.</li><li>Check partially completed walls (e.g. no backfill until top support is built).</li></ul>`},
+{id:"G21",p:"G",q:"When should permanent prestressed ground anchors be used in a retaining wall?",
+a:`<ul><li>Only when other methods are not practicable, because they impose a long-term maintenance commitment and recurring cost.</li><li>Get the maintenance authority's or owner's agreement first.</li><li>Assess installation suitability, effects on neighbouring structures and services, and rights of adjoining owners.</li><li>Pay special attention to corrosion protection and creep. Follow Geospec 1.</li></ul>`},
+{id:"G22",p:"G",q:"What must be in place before using the observational method for a retaining wall?",
+a:`<ol><li>Acceptable limits of behaviour established.</li><li>Range of possible behaviour assessed, showing it is likely to be within limits.</li><li>A monitoring plan that detects behaviour early enough, with fast enough instruments, warning levels, and experienced staff.</li><li>A contingency plan if limits are exceeded.</li></ol><p>Typical use: walls supporting embankments on soft ground, monitoring movement and pore pressure. Contingencies: regrading, extra support, drainage, or slowing construction.</p>`},
+{id:"G23",p:"G",q:"What should a geotechnical design report for a retaining wall contain?",
+a:`<ul><li>Site description: topography, geology, groundwater and surface water, history, utilities and records.</li><li>Critical interpretation of GI and monitoring results.</li><li>Schedule of design assumptions: selected parameters, loads, geometry.</li><li>Anticipated problems and contingency actions.</li><li>Requirements for construction, testing, inspection and maintenance.</li><li>Stability analyses and design calculations.</li><li>Keep factual and interpreted information separate, and record construction-stage checks in an addendum.</li></ul>`},
+{id:"G24",p:"G",q:"How do you deal with relict joints and corestones when designing a wall in saprolite?",
+a:`<ul><li>Relict joints can cause failure along planes not assumed in soil mechanics theory. Inspect exposures, and map in detail where the wall could be affected (e.g. bored pile walls).</li><li>Use a suitable calculation model and joint strength where adverse joints exist; infill (e.g. kaolin) can be much weaker.</li><li>Corestones: conservative practice is to use matrix strength only, unless their proportion and distribution are reliably known.</li><li>Map during construction and review the design if adverse features appear.</li></ul>`},
+{id:"G25",p:"G",q:"What rock parameters might you need for a retaining wall, and how are they estimated?",
+a:`<ul><li>Intact strength is rarely critical but is a useful index; Grade III rock is very variable and should be taken conservatively.</li><li>Joint shear strength: basic friction plus roughness at low stress (φ<sub>b</sub> + i), or Barton's model; infilled joints can be very weak.</li><li>Rock mass strength: Hoek-Brown for jointed rock that can be treated as isotropic; otherwise wedge or distinct element analysis.</li><li>Rock mass modulus: much lower than intact; e.g. via a mass factor (BS 8004), modulus ratio (200 to 500 for most Hong Kong rocks), or RMR correlation.</li></ul>`},
+{id:"G26",p:"G",q:"What maintenance does a retaining wall need, and how should design allow for it?",
+a:`<ul><li>Routine Maintenance Inspections (clear weepholes and drains, remove vegetation, repair cracks) and periodic Engineer Inspections (Geoguide 5).</li><li>Design for maintenance: access, durable materials, drainage that can be cleared, and avoiding features that are hard to inspect.</li><li>Identify maintenance items in the design report and maintenance manual.</li><li>Watch for warning signs: bulging, cracking, blocked weepholes, seepage, leaking services, trees on the wall.</li></ul>`}
 );
 Q.sort((x,y)=>x.p===y.p?(parseInt(x.id.slice(1))-parseInt(y.id.slice(1))):x.p.localeCompare(y.p));
 

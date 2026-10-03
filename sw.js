@@ -1,7 +1,7 @@
 // Caches the app so it opens with no signal after the first visit.
 // Change VERSION whenever you edit index.html so phones pick up the new copy.
-const VERSION = "mhkieg-v3";
-const FILES = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
+const VERSION = "mhkieg-v5";
+const FILES = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./question-bank.pdf"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
